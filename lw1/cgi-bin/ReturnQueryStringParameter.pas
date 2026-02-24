@@ -21,8 +21,7 @@ BEGIN
       THEN
         QueryString := Copy(QueryStringCop, Length(Key) + 1, PosMark - Length(Key) - 1)
       ELSE
-        QueryString := Copy(QueryStringCop, Length(Key) + 1, Length(QueryStringCop) - Length(Key));
-       
+        QueryString := Copy(QueryStringCop, Length(Key) + 1, Length(QueryStringCop) - Length(Key));       
       GetQueryStringParameter := QueryString
     END
   ELSE

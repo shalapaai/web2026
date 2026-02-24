@@ -1,0 +1,63 @@
+@font-face {
+  font-family: 'Golos UI';
+  src: url('././fonts/golos-ui_vf.woff2') format('woff2'),
+       url('..//fonts/golos-ui_vf.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Golos UI", sans-serif;
+    color: #222222;
+}
+
+.icons-bar {
+    display: inline-block;
+}
+
+.content {
+    display: inline-block;
+    width: 474px;
+}
+
+.header {
+    width: 474px;
+}
+
+.header__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+}
+
+.header__user-name {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+}
+
+.header__edit-post {
+    width: 24px;
+    height: 24px;
+}
+
+.post-content {
+
+}
+
+.post-content__image {
+    width: 474px;
+    height: 474px;
+}
+
+.post-content__arrow {
+    
+}

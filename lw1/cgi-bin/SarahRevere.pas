@@ -32,7 +32,6 @@ BEGIN
     GetQueryStringParameter := ''
 END;
 
-
 BEGIN
   WRITELN('Content-Type: text/plain');
   WRITELN;

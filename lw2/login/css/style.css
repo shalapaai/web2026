@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'Golos UI';
+  src: url('././fonts/golos-ui_vf.woff2') format('woff2'),
+       url('..//fonts/golos-ui_vf.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Golos UI", sans-serif;
+    color: #222222;
+}
+
+.main-header {
+    font-size: 140px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 180px;
+}
+
+.main-image {
+    width: 462px;
+    height: 501px;
+}
+
+.login-form {
+    width: 343px;
+    display: inline-block;
+    margin-left: 107px;
+}
+
+.login-form__label {
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    margin-bottom: 5px;
+}
+
+.login-form__input-field {
+    width: 343px;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background-color: #F2F3F5;
+    padding: 13px 12px 13px 12px;
+}
+
+.login-form__extra-info {
+    color: #808080;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: -0.08px;
+    margin-top: 5px;
+    margin-bottom: 16px;
+}
+
+.login-form__show-password-image {
+    width: 24px;
+    height: 24px;
+}
+
+.login-form__continue-button {
+    width: 343px;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background-color: #222222;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 16px;
+    margin-top: 32px;
+}
