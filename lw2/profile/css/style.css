@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'Golos UI';
+  src: url('../../fonts/golos-ui_vf.woff2') format('woff2'),
+       url('../../fonts/golos-ui_vf.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Golos UI';
+  src: url('../../fonts/golos-ui_medium.woff2') format('woff2'),
+       url('../../fonts/golos-ui_medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Golos UI', sans-serif;
+    color: #222222;
+}
+
+.icons-bar {
+    width: 72px;
+    height: 1056px;
+    border-right: 1px solid #2222220D;
+    padding-left: 16px;
+    padding-top: 40px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.icons-bar__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+}
+
+.content {
+    width: 474px;
+    display: inline-block;
+    margin-left: 163px;
+    margin-top: 97px;
+}
+
+.user-avatar {
+    width: 123px;
+    height: 123px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 32px;
+    letter-spacing: -0.25px;
+    width: 361px;
+}
+
+.user-status {
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    width: 361px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+
+.user-post-counter {
+    width: 110px;
+    height: 30px;
+    padding: 6px 10px 6px 10px;
+    background-color: #F2F3F5;
+    border-radius: 6px;
+}
+
+.user-post-counter__image {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+.user-post-counter__counter {
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+}
+
+.user-posts {
+    margin-top: 42px;
+    width: 976px;
+}
+
+.user-posts__image {
+    width: 322.35px;
+    height: 322.35px;
+    border-radius: 2px;
+}
