@@ -1,0 +1,17 @@
+.icons-bar {
+    width: 72px;
+    height: 100%;
+    border-right: 1px solid #2222220D;
+    padding-left: 16px;
+    padding-top: 40px;
+    vertical-align: top;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.icons-bar__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+}
