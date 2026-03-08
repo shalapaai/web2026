@@ -21,18 +21,6 @@
 
 @media (max-width: 1024px) {
     .icons-bar {
-        width: 361px;
-        height: 53px;
-        padding-top: 5px;
-        padding-bottom: 8px;
-        border-radius: 30px;
-        border: 1px solid #A7A7A74D;
-        gap: 50px;
-        flex-direction: row;
-        justify-content: center;
-        top: auto;
-        bottom: 16px;
-        left: 50%;
-        transform: translateX(-50%);
+        display: none;
     }
 }

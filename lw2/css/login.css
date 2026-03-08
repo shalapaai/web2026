@@ -32,6 +32,8 @@ body {
 .container {
     display: flex;
     align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .main-image {
@@ -42,7 +44,6 @@ body {
 .login-form {
     width: 343px;
     display: inline-block;
-    margin-left: 107px;
     vertical-align: top;
 }
 
@@ -99,4 +100,30 @@ body {
     font-weight: 500;
     font-size: 16px;
     margin-top: 32px;
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .main {
+        width: 343px;
+        padding: 0;
+        position: relative;
+    }
+
+    .main-header {
+        font-size: 75px;
+        line-height: 95.54px;
+        letter-spacing: -0.8px;
+    }
+
+    .main-image {
+        width: 247px;
+        height: 268px;
+        margin-top: 57px;
+    }
+
+    .container {
+        flex-direction: column;
+        gap: 24px;
+    }
 }

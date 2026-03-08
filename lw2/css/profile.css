@@ -7,13 +7,19 @@
 body {
     font-family: 'Golos UI', sans-serif;
     color: #222222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
 }
 
-.content {
+.about-user {
     display: inline-block;
     margin-top: 97px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
 }
 
@@ -68,11 +74,45 @@ body {
 
 .user-posts {
     margin-top: 42px;
-    width: 976px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.48px;
+    margin-bottom: 97px;
 }
 
 .user-posts__image {
-    width: 322.35px;
-    height: 322.35px;
+    max-width: 322.35px;
+    max-height: 322.35px;
     border-radius: 2px;
+}
+
+@media (max-width: 1024px) {
+    .about-user {
+        margin-top: 111px;
+    }
+
+    .user-posts {
+        gap: 2.13px;
+    }
+
+    .user-posts__image {
+        max-width: 276.58px;
+        max-height: 276.58px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-user {
+        margin-top: 73px;
+    }
+
+    .user-posts {
+        margin-top: 32px;
+        gap: 1px;
+    }
+
+    .user-posts__image {
+        max-width: 130.33px;
+        max-height: 130.33px;
+    }
 }
