@@ -17,6 +17,7 @@ body {
     width: 100vw;
     border-bottom: 1px solid #2222220D;
     position: relative;
+    color: #222222;
 }
 
 .header__arrow {
@@ -106,10 +107,6 @@ body {
     margin-left: 4px;
 }
 
-textarea {
-  resize: none;
-}
-
 .add-info {
     font-size: 15px;
     line-height: 18px;
@@ -119,6 +116,7 @@ textarea {
     width: 100%;
     outline: none;
     color: #222222;
+    resize: none;
 }
 
 .share {

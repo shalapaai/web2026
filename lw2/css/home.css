@@ -19,6 +19,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #222222;
 }
 
 .content {
@@ -45,6 +46,7 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .header__avatar {
@@ -59,6 +61,7 @@ body {
     line-height: 18px;
     letter-spacing: -0.15px;
     margin-left: 10px;
+    color: #222222;
 }
 
 .header__edit-post {
@@ -135,12 +138,14 @@ body {
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.15px;
+    color: #222222;
 }
 
 .post-text {
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.15px;
+    color: #222222;
 }
 
 .read-more {

@@ -6,7 +6,6 @@
 
 body {
     font-family: 'Golos UI', sans-serif;
-    color: #222222;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -27,6 +26,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    color: #222222;
 }
 
 .container {
@@ -53,6 +53,7 @@ body {
     letter-spacing: -0.15px;
     display: inline-block;
     margin-bottom: 5px;
+    color: #222222;
 }
 
 .login-form__input-field {
@@ -62,6 +63,7 @@ body {
     border-radius: 10px;
     background-color: #F2F3F5;
     padding: 13px 12px 13px 12px;
+    color: #222222;
 }
 
 .login-form__extra-info {

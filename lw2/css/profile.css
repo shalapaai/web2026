@@ -11,7 +11,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
 }
 
 .about-user {
@@ -37,6 +36,7 @@ body {
     letter-spacing: -0.25px;
     width: 361px;
     text-align: center;
+    color: #222222;
 }
 
 .user-status {
@@ -47,6 +47,7 @@ body {
     margin-top: 10px;
     margin-bottom: 12px;
     text-align: center;
+    color: #222222;
 }
 
 .user-post-counter {
@@ -70,6 +71,7 @@ body {
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.15px;
+    color: #222222;
 }
 
 .user-posts {
