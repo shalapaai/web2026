@@ -1,0 +1,4 @@
+http://api.geonames.org/postalCodeSearch?postalcode=9011&maxRows=10&username=shalapaai - 200
+https://api.geonames.org/countryInfoJSON?username=shalapaai&country=RU - 404
+
+https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo
