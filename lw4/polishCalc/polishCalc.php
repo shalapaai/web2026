@@ -5,6 +5,15 @@ const STACK_MAX = 100;
 
 function polishCount() {
 
+    function getArrLenght(array $arr): int {
+        $lenght = 0;
+        $arr[] = PHP_EOL;
+        for ($i = 0; $arr[$i] !== PHP_EOL; $i++) {
+            $lenght++;
+        }
+        return $lenght;
+    }
+
     function isValidIntCheck(string $str): bool {
         $isValid = true;
         $str .= PHP_EOL;
@@ -60,6 +69,7 @@ function polishCount() {
 
     $stack = [];
     $stackLenght = 0;
+
     foreach ($elements as $element) {
         if (isValidIntCheck($element)) {
             $stack[] = (int)$element;
@@ -101,7 +111,11 @@ function polishCount() {
         }
         // print_r($stack);            
     }
-    echo 'Ответ: ' . $stack[0];
+    if (getArrLenght($stack) !== 1){
+        echo 'Невалидный ввод';
+        return;
+    }
+    echo ' Ответ: ' . $stack[0];
     return;
 }
 

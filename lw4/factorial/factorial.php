@@ -1,6 +1,5 @@
 <?php
 
-const DIGIT_LENGHT = 10;
 const DIGITS  = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 function factorialCount() {
@@ -24,8 +23,11 @@ function factorialCount() {
         return $isValid;
     }
 
-    function factorial(int $number): int {
+    function factorial(int $number): float {
         if ($number === 0) return 1;
+        // if ($number > 20) {
+        //     return PHP_INT_MAX;
+        // }
         $number *= factorial($number - 1);
         return $number;
     }
@@ -41,6 +43,10 @@ function factorialCount() {
         return;
     }
     $factorial = factorial($number);
+    // if ($factorial === PHP_INT_MAX) {
+    //     echo 'Как минимум ' . PHP_INT_MAX;
+    //     return;
+    // }
     echo $factorial . '</br>';
     return;
 }
