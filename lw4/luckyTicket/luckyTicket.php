@@ -75,6 +75,7 @@ function findAllLuckyTickets() {
     }
 
     // print_r($luckyTickets);
+    return;
 }
 
 findAllLuckyTickets();

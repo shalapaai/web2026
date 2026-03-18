@@ -40,6 +40,7 @@ function isLeapYear() {
     } else {
         echo 'Невалидные данные' . '</br>';
     }
+    return;
 }
 
 isLeapYear();

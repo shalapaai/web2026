@@ -38,6 +38,7 @@ function DigitToWord() {
             break;
     }
     echo $value . '</br>';
+    return;
 }
 
 DigitToWord()

@@ -124,20 +124,11 @@ function whichZodiac() {
             }
             if ($numLenght <= 2 && $numLenght > 0 && $found < 2) {
                 if ($isAmericanDateType) {
-                    if ($found === 0) {
-                        $str = convertMonth($str);
-                        $datesArray['month'] = (int)$str;
-                    } else {
-                        
-                        $datesArray['day'] = (int)$str;
-                    }
+                    if ($found === 0) $datesArray['month'] = (int)$str;
+                    else $datesArray['day'] = (int)$str;
                 } else {
-                    if ($found === 0) {
-                        $datesArray['day'] = (int)$str;
-                    } else {
-                        $str = convertMonth($str);
-                        $datesArray['month'] = (int)$str;
-                    }
+                    if ($found === 0) $datesArray['day'] = (int)$str;
+                    else $datesArray['month'] = (int)$str;
                 }
                 $found++;
             } elseif ($numLenght <= 4 && $numLenght > 0) {
@@ -148,7 +139,7 @@ function whichZodiac() {
                 $datesArray['year'] = (int)$str;
             } else {
                 $datesArray = [];
-            }
+            } 
         }
 
         $numLenght = 0;
@@ -168,9 +159,7 @@ function whichZodiac() {
                 }
             } 
         }
-        if ($found !== 2) {
-            return [];
-        }
+        if ($found !== 2) return [];
         return $datesArray;
     }
 
