@@ -1,0 +1,11 @@
+[
+  {
+    "userId": 1,
+    "name": "Ваня Денисов",
+    "profileStatus": "Привет! Я системный аналитик в ACME :) Тут моя жизнь только для самых классных!",
+    "avatar": "/avatar1.jpg",
+    "email": "vanya@email.com",
+    "password": "Qwerty_123",
+    "registeredAt": 1735902969
+  }
+]
