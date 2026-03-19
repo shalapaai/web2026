@@ -1,22 +1,5 @@
 <?php
-
-function initJSONFile(string $jsonPath): array  {
-    $json = file_get_contents($jsonPath);
-    if (!$json) throw new Exception("Файл не найден: $jsonPath");
-    $arr = json_decode($json, true);
-    if (json_last_error() !== JSON_ERROR_NONE) throw new Exception("Ошибка декодирования JSON" . json_last_error_msg());
-    return $arr;
-}
-
-function getPosts(): array {
-    return initJSONFile(__DIR__ . '/json/posts.json');
-}
-
-function getUsers(): array {
-    return initJSONFile(__DIR__ . '/json/users.json');
-}
-
-function renderPost(array $user, $post) {
+function renderPost(array $post, $user) {
 ?>
 
 <div class="post">
@@ -52,7 +35,7 @@ function renderPost(array $user, $post) {
         </button>
         <p class="post-text"><?php echo $post['content'] ?></p>
         <button class="read-more">ещё</button>
-        <p class="posted-at"><?php echo date($user['createdAt']) ?></p>
+        <p class="posted-at"><?php echo date('d.m.Y H:i', $post['createdAt']) ?></p>
     </div>
 </div>
 
