@@ -40,12 +40,13 @@ switch ($request) {
         break;
     
     case '/create':
-        if ($method === 'POST') {
-            $controller = new PostController($postService, $userService);
-            $controller->create();
-        } else {
-            include __DIR__ . '/../views/pages/create.php';
-        }
+        $controller = new PostController($postService, $userService);
+        $controller->create();
+        break;
+    
+    case '/edit':
+        $controller = new PostController($postService, $userService);
+        $controller->edit();
         break;
     
     default:
