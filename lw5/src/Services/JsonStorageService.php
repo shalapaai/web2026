@@ -1,19 +1,19 @@
 <?php
 namespace App\Services;
 
-class JsonStorageService {
-    
-    public function __construct(
-        protected string $dataPath
+abstract class JsonStorageService {
+
+    function __construct(
+        private string $dataPath
     ) {}
     
-    public static function getData(string $path): array {
-        if (!file_exists($path)) {
-            return [];  
+    protected function readJson(): array {
+        if (!file_exists($this->dataPath)) {
+            return [];
         }
-        $json = file_get_contents($path);
+        $json = file_get_contents($this->dataPath);
         if ($json === false) {
-            throw new \Exception("Не удалось прочитать файл: {$path}");
+            throw new \Exception("Не удалось прочитать файл: {$this->dataPath}");
         }
         if (trim($json) === '') {
             return [];
@@ -21,15 +21,22 @@ class JsonStorageService {
         $data = json_decode($json, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception(
-                "Ошибка JSON в {$path}: " . json_last_error_msg()
-            );
-        }
-        if (!is_array($data)) {
-            throw new \Exception(
-                "Ожидался массив в {$path}, получено: " . gettype($data)
+                "Ошибка JSON в {$this->dataPath}: " . json_last_error_msg()
             );
         }
         
         return $data;
-    }  
+    }
+
+    protected function writeJson(array $data): void {
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        
+        if ($json === false) {
+            throw new \Exception("Не удалось закодировать JSON");
+        }
+        
+        if (file_put_contents($this->dataPath, $json) === false) {
+            throw new \Exception("Не удалось записать файл: {$this->dataPath}");
+        }
+    }
 }

@@ -3,15 +3,20 @@ namespace App\Controllers;
 
 use App\Services\PostService;
 use App\Services\UserService;
+use App\Core\BaseController;
 
-class UserController {
+class UserController extends BaseController {
     public function __construct(
-        private UserService $userService
+        private PostService $postService,
+        private UserService $userService        
     ) {}
 
     public function login(): void {
         try {
-            $this->render('login');
+            // $users = $this->userService->getAll();
+            $this->render('login', [
+                // 'users' => $users
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();
@@ -20,17 +25,17 @@ class UserController {
 
     public function profile(): void {
         try {
-            $this->render('profile');
+            $userId = (int)($_GET['id'] ?? $_SESSION['user_id'] ?? 0);
+            $user = $this->userService->getById($userId);
+            $posts = $this->postService->getByAuthorId($user->id);
+            $this->render('profile', [
+                'posts' => $posts,
+                'user' => $user,
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();
         }
-    }
-
-    private function render(string $view, array $data = []): void {
-        // Извлекаем переменные из массива
-        extract($data);
-        include __DIR__ . "/../../Views/pages/{$view}.php";
     }
 }
 

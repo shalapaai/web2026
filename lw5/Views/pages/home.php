@@ -13,7 +13,7 @@
             <a href="../home/" title="Домой">
                 <img class="icons-bar__icon" src="assets/icons/home-active.svg" alt="Домой" width="40px" height="40px">
             </a>
-            <a href="../profile" title="Профиль">
+            <a href="../profile?id=1" title="Профиль">
                 <img class="icons-bar__icon" src="assets/icons/profile.svg" alt="Профиль" width="40px" height="40px">
             </a>
             <a href="../create/" title="Создать пост">
@@ -25,7 +25,8 @@
             <?php
                 require_once __DIR__ . '/../partitials/postPreview.php';
                 foreach ($posts as $post) {
-                    renderPost($post, $users[0]);
+                    $user = array_find($users, fn($u) => $u->id === $post->authorId);
+                    renderPost($post, $user);
                 }
             ?>
         </div>

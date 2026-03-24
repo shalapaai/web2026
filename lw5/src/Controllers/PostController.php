@@ -3,24 +3,29 @@ namespace App\Controllers;
 
 use App\Services\PostService;
 use App\Services\UserService;
+use App\Core\BaseController;
+use App\Models\Post;
 
-class PostController {
+class PostController extends BaseController {
     public function __construct(
         private PostService $postService,
         private UserService $userService
     ) {}
 
     // Главная страница
-    public function index(): void {
+    public function home(): void {
         try {
             $posts = $this->postService->getAll();
             $users = $this->userService->getAll();
-
+            $postId = (int)($_GET['postId'] ?? 0);
+            
+            if ($postId > 0) {
+                $posts = array_filter($posts, fn(Post $p) => $p->id === $postId );
+            }
             $this->render('home', [
                 'posts' => $posts,
                 'users' => $users
             ]);
-            
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();
@@ -29,7 +34,12 @@ class PostController {
 
     public function create(): void {
         try {
-            $this->render('create');
+            // $posts = $this->postService->getAll();
+            // $users = $this->userService->getAll();
+            $this->render('create', [
+                // 'posts' => $posts,
+                // 'users' => $users
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();
@@ -38,17 +48,16 @@ class PostController {
     
     public function edit(): void {
         try {
-            $this->render('edit');
+            // $posts = $this->postService->getAll();
+            // $users = $this->userService->getAll();
+            $this->render('edit', [
+                // 'posts' => $posts,
+                // 'users' => $users,
+            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();
         }
-    }
-    
-    private function render(string $view, array $data = []): void {
-        // Извлекаем переменные из массива
-        extract($data);
-        include __DIR__ . "/../../Views/pages/{$view}.php";
     }
 }
 

@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "authtorId": 1,
+    "authorId": 1,
     "content": "Так красиво сегодня на улице! Настоящая зима)) Вспоминается Бродский: «Поздно ночью, в уснувшей долине, на самом дне, в городке, занесенном снегом по ручку двери...» ",
     "images": ["/photo1.jpg", "/photo2.jpg"],
     "likes": 203,
@@ -9,7 +9,7 @@
   },
   {
     "id": 2,
-    "authtorId": 1,
+    "authorId": 1,
     "content": "Я хочу питсы",
     "images": ["/photo2.jpg"],
     "likes": 2,
@@ -17,7 +17,7 @@
   },
   {
     "id": 3,
-    "authtorId": 1,
+    "authorId": 1,
     "content": "Русские вперед",
     "images": ["/photo3.jpg"],
     "likes": 0,
@@ -25,7 +25,7 @@
   },
   {
     "id": 4,
-    "authtorId": 1,
+    "authorId": 1,
     "content": "Я слушаю Кристину Орбакайте",
     "images": ["/photo4.jpg"],
     "likes": 1000,
@@ -33,7 +33,7 @@
   },
   {
     "id": 5,
-    "authtorId": 1,
+    "authorId": 1,
     "content": "Равшан раскривушка нада",
     "images": ["/photo5.jpg"],
     "likes": 100500,
@@ -41,10 +41,18 @@
   },
   {
     "id": 6,
-    "authtorId": 1,
+    "authorId": 2,
     "content": "Первый раскривушка - Джамшут спать, второй раскривушка - Равшан спать, третий раскривушка оба спат",
     "images": ["/photo6.jpg"],
     "likes": 11,
-    "createdAt": 1773981019
+    "createdAt": 1774372594
+  },
+  {
+    "id": 7,
+    "authorId": 3,
+    "content": "Привет мир",
+    "images": ["/photo6.jpg"],
+    "likes": 11,
+    "createdAt": 1774372594
   }
 ]

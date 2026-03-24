@@ -13,7 +13,7 @@
             <a href="../home/" title="Домой">
                 <img class="icons-bar__icon" src="assets/icons/home.svg" alt="Домой" width="40px" height="40px">
             </a>
-            <a href="../profile/" title="Профиль">
+            <a href="../profile?id=1" title="Профиль">
                 <img class="icons-bar__icon" src="assets/icons/profile-active.svg" alt="Профиль" width="40px" height="40px">
             </a>
             <a href="../create/" title="Создать пост">
@@ -21,21 +21,21 @@
             </a>
         </nav>
         <div class="about-user">
-            <img class="user-avatar" src="uploads/avatars/avatar1.jpg" alt="Аватарка" width="123px" height="123px">
-            <h1 class="user-name">Ваня Денисов</h1>
-            <p class="user-status">Привет! Я системный аналитик в ACME :) Тут моя жизнь только для самых классных!</p>
+            <img class="user-avatar" src="<?= $user->getAvatarUrl() ?>" alt="Аватарка" width="123px" height="123px">
+            <h1 class="user-name"><?= $user->name ?></h1>
+            <p class="user-status"><?= $user->profileStatus ?></p>
             <div class="user-post-counter">
                 <img class="user-post-counter__image" src="assets/icons/post-counter.svg" alt="Счетчик постов" width="16px" height="16pxs">
-                <span class="user-post-counter__text">43 поста</span>
+                <span class="user-post-counter__text"><?= count($posts) . ' ' . App\Models\Post::pluralizePosts(count($posts)) ?></span>
             </div>
         </div>
         <div class="user-posts">
-            <img class="user-posts__image" src="uploads/posts/photo1.jpg" alt="Картинка из поста" width="322.35px" height="322.35px">
-            <img class="user-posts__image" src="uploads/posts/photo2.jpg" alt="Картинка из поста" width="322.35px" height="322.35px">
-            <img class="user-posts__image" src="uploads/posts/photo3.jpg" alt="Картинка из поста" width="322.35px" height="322.35px">
-            <img class="user-posts__image" src="uploads/posts/photo4.jpg" alt="Картинка из поста" width="322.35px" height="322.35px">
-            <img class="user-posts__image" src="uploads/posts/photo5.jpg" alt="Картинка из поста" width="322.35px" height="322.35px">
-            <img class="user-posts__image" src="uploads/posts/photo6.jpg" alt="Картинка из поста" width="322.35px" height="322.35px">
+            <?php foreach ($posts as $post) { 
+                foreach ($post->images as $image) {?>
+                    <img class="user-posts__image" src="uploads/posts<?= $image ?>" alt="Картинка из поста" width="322.35px" height="322.35px">
+            <?php 
+                }
+            } ?>
         </div>
     </body>
 </html>
