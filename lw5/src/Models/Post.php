@@ -16,7 +16,7 @@ class Post {
             id: (int)($data['id'] ?? 0),
             authorId: (int)($data['authorId']),
             content: $data['content'] ?? '',
-            images: array_filter((array)($data['images'] ?? []), 'is_string'),
+            images: (array)($data['images'] ?? []),
             likes: (int)($data['likes'] ?? 0),
             createdAt: (int)($data['createdAt'] ?? time())
         );

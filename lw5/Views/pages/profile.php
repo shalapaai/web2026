@@ -22,8 +22,8 @@
         </nav>
         <div class="about-user">
             <img class="user-avatar" src="<?= $user->getAvatarUrl() ?>" alt="Аватарка" width="123px" height="123px">
-            <h1 class="user-name"><?= $user->name ?></h1>
-            <p class="user-status"><?= $user->profileStatus ?></p>
+            <h1 class="user-name"><?= htmlspecialchars($user->name) ?></h1>
+            <p class="user-status"><?= htmlspecialchars($user->profileStatus) ?></p>
             <div class="user-post-counter">
                 <img class="user-post-counter__image" src="assets/icons/post-counter.svg" alt="Счетчик постов" width="16px" height="16pxs">
                 <span class="user-post-counter__text"><?= count($posts) . ' ' . App\Models\Post::pluralizePosts(count($posts)) ?></span>
