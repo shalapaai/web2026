@@ -110,6 +110,10 @@ class Post {
         return $this->images[0] ?? null;
     }
 
+    public function hasImage(): bool {
+        return !empty($this->images);
+    }
+
     public function getImagesCount(): int {
         return count($this->images);
     }

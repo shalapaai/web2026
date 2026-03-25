@@ -13,19 +13,21 @@ function renderPost($post, $user) {
         </a>
     </div>
     <div class="post-content">
-        <img class="post-content__image" src="/uploads/posts<?= $post->getFirstImage() ?>" alt="Картинка из поста" width="474px" height="474px">
-        <?php 
-        $imgCnt = $post->getImagesCount();
-        if ($imgCnt > 1) { ?>
-            <span class="post-content__counter">1/<?= $imgCnt ?></span>
-            <div class="post-content__arrow arrow_left">
-                <img src="../assets/icons/arrow-left.svg" width="10px" height="10px">
-            </div>
-            <div class="post-content__arrow arrow_right">
-                <img src="../assets/icons/arrow-right.svg" width="10px" height="10px">
-            </div>
-        <?php 
-        } 
+        <?php if($post->hasImage()) { ?>
+            <img class="post-content__image" src="/uploads/posts<?= $post->getFirstImage() ?>" alt="Картинка из поста" width="474px" height="474px">
+            <?php 
+            $imgCnt = $post->getImagesCount();
+            if ($imgCnt > 1) { ?>
+                <span class="post-content__counter">1/<?= $imgCnt ?></span>
+                <div class="post-content__arrow arrow_left">
+                    <img src="../assets/icons/arrow-left.svg" width="10px" height="10px">
+                </div>
+                <div class="post-content__arrow arrow_right">
+                    <img src="../assets/icons/arrow-right.svg" width="10px" height="10px">
+                </div>
+            <?php 
+            } 
+        }
         ?>
     </div>
     <div class="about-post">
