@@ -33,7 +33,7 @@ function renderPost($post, $user) {
             <img class="likes__image" src="../assets/icons/like.png" alt="Лайк" width="16px" height="16px">
             <span class="likes__counter"><?= $post->likes ?></span>
         </button>
-        <p class="post-text"><?= htmlspecialchars($post->content) ?></p>
+        <p class="post-text"><?= htmlspecialchars($post->content ?? '') ?></p>
         <button class="read-more">ещё</button>
         <p class="posted-at"><?= $post->getRelativeTime() ?></p>
     </div>

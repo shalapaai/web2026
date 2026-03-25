@@ -10,20 +10,20 @@
     </head>
     <body>
         <nav class="icons-bar">
-            <a href="../home/" title="Домой">
+            <a href="/home/" title="Домой">
                 <img class="icons-bar__icon" src="assets/icons/home-active.svg" alt="Домой" width="40px" height="40px">
             </a>
-            <a href="../profile?id=1" title="Профиль">
+            <a href="/profile?id=1" title="Профиль">
                 <img class="icons-bar__icon" src="assets/icons/profile.svg" alt="Профиль" width="40px" height="40px">
             </a>
-            <a href="../create/" title="Создать пост">
+            <a href="/create/" title="Создать пост">
                 <img class="icons-bar__icon" src="assets/icons/new-post.svg" alt="Создать пост" width="40px" height="40px">
             </a>
         </nav>
         <div class="top-title"></div>
         <div class="content">
             <?php
-                require_once __DIR__ . '/../partitials/postPreview.php';
+                require_once __DIR__ . '/../partitials/postView.php';
                 foreach ($posts as $post) {
                     $user = array_find($users, fn($u) => $u->id === $post->authorId);
                     renderPost($post, $user);

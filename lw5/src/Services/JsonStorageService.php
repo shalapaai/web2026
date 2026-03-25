@@ -29,11 +29,14 @@ abstract class JsonStorageService {
     }
 
     protected function writeJson(array $data): void {
+        // print_r($data);
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         
         if ($json === false) {
             throw new \Exception("Не удалось закодировать JSON");
         }
+
+        // print_r($json);
         
         if (file_put_contents($this->dataPath, $json) === false) {
             throw new \Exception("Не удалось записать файл: {$this->dataPath}");
