@@ -41,10 +41,6 @@ class Post {
         $now = time();
         $diff = $now - $timestamp;
 
-        // Если время в будущем (защита от неверных данных)
-        if ($diff < 0) {
-            return 'только что';
-        }
         // Менее минуты
         if ($diff < 60) {
             return 'только что';
@@ -82,7 +78,6 @@ class Post {
     public static function pluralizePosts(int $count): string {
         return self::pluralize($count, 'пост', 'поста', 'постов');
     }
-
 
     private static function pluralize(int $count, string $one, string $few, string $many): string {
         $lastDigit = $count % 10;
