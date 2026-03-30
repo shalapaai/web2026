@@ -48,7 +48,6 @@ class PostService extends JsonStorageService {
         if (!$files || empty($files['name'][0])) {
             return [];
         }
-        
         $uploaded = [];
         $allowedTypes = ['image/jpeg', 'image/png'];
         $maxSize = 5 * 1024 * 1024; // 5MB
@@ -89,21 +88,4 @@ class PostService extends JsonStorageService {
         ];
         return $messages[$errorCode] ?? 'Неизвестная ошибка';
     }
-
-    public function printPostCount(int $cnt): string {
-        if (!$cnt > 10 && !$cnt < 15) {
-            $cnt %= 10;
-        }
-        switch ($cnt) {
-            case 1:
-                return 'пост';
-            case 2:
-            case 3:
-            case 4:
-                return 'поста';
-            default: 
-                return 'постов';
-        }
-    }
 }
-?>

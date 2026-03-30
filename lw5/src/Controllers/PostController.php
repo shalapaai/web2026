@@ -39,11 +39,9 @@ class PostController extends BaseController {
             $method = $_SERVER['REQUEST_METHOD'];
             if ($method === 'POST') {
                 $data = $_POST;
-                $images = $_FILES;
                 $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
                 $data['uploadedImages'] = $uploadedImages;
                 $authorId = 1;
-                print_r($images);
                 $this->postService->create($data, $authorId);
             }
             $this->render('create', [
@@ -70,5 +68,3 @@ class PostController extends BaseController {
         }
     }
 }
-
-?>

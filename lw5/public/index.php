@@ -60,4 +60,3 @@ switch ($path) {
         echo 'Страница не найдена';
         break;
 }
-?>

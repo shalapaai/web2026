@@ -27,4 +27,3 @@ class UserService extends JsonStorageService {
     //     return $user;
     // }
 }
-?>
