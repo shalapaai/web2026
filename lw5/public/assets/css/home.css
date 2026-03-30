@@ -77,6 +77,8 @@ body {
 .post-content__image {
     width: 474px;
     height: 474px;
+    object-fit: cover;
+    object-position: center; 
 }
 
 .post-content__arrow {

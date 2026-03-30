@@ -81,10 +81,15 @@ body {
     margin-bottom: 97px;
 }
 
-.user-posts__image {
+.user-posts__image-link {
     max-width: 322.35px;
     max-height: 322.35px;
+}
+
+.user-posts__image {
     border-radius: 2px;
+    object-fit: cover;
+    object-position: center; 
 }
 
 @media (max-width: 1024px) {

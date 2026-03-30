@@ -32,7 +32,9 @@
         <div class="user-posts">
             <?php foreach ($posts as $post) { 
                 foreach ($post->images as $image) {?>
-                    <a href="/home?postId=<?= $post->id ?>" class="user-posts__image"><img src="uploads/posts<?= $image ?>" alt="Картинка из поста" width="322.35px" height="322.35px"></a>
+                    <a href="/home?postId=<?= $post->id ?>" class="user-posts__image-link">
+                        <img src="uploads/posts<?= $image ?>" class="user-posts__image" alt="Картинка из поста" width="322.35px" height="322.35px">
+                    </a>
             <?php 
                 }
             } ?>
