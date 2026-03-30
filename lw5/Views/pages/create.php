@@ -28,12 +28,12 @@
             <div class="add-photo-container">
                 <div class="add-photo-container__field">
                     <img class="add-photo-container__picture" src="assets/icons/picture.png" alt="Ввод картинки" width="81px" height="81px">
-                    <button class="add-photo-container__post-image-main-button">Добавить фото</button>
+                    <button class="add-photo-container__post-image-main-button" title="Добавить фото">Добавить фото</button>
                     <input style="display: none;" type="file" accept="image/jpeg, image/png" multiple>
                 </div>
             </div>
             <div class="inputs-conteiner">
-                <button class="post-image-button">
+                <button class="post-image-button" title="Добавить фото">
                     <img src="assets/icons/plus.svg" alt="Плюс">
                     <span class="post-image-button__text">Добавить фото</span>
                     <input style="display: none;" type="file" accept="image/jpeg, image/png" multiple>

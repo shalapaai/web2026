@@ -16,7 +16,7 @@ function renderPost($post, $user) {
         } ?>
     </div>
     <div class="post-content">
-        <?php if($post->hasImage()) { ?>
+        <?php if ($post->hasImage()) { ?>
             <img class="post-content__image" src="/uploads/posts<?= $post->getFirstImage() ?>" alt="Картинка из поста" width="474px" height="474px">
             <?php 
             $imgCnt = $post->getImagesCount();
@@ -34,12 +34,12 @@ function renderPost($post, $user) {
         ?>
     </div>
     <div class="about-post">
-        <button class="likes">
+        <button class="likes" title="Лайкнуть">
             <img class="likes__image" src="../assets/icons/like.png" alt="Лайк" width="16px" height="16px">
             <span class="likes__counter"><?= $post->likes ?></span>
         </button>
         <p class="post-text"><?= htmlspecialchars($post->content ?? '') ?></p>
-        <button class="read-more">ещё</button>
+        <button class="read-more" title="Показать ещё">ещё</button>
         <p class="posted-at"><?= $post->getRelativeTime() ?></p>
     </div>
 </div>

@@ -21,25 +21,25 @@
             </a>
         </nav>
         <div class="header">
-            <a href="/home/"><img class="header__arrow" src="assets/icons/arrow-left.svg" alt="Обратно" width="24px" height="24px"></a>
+            <a href="/home/" title="Домой"><img class="header__arrow" src="assets/icons/arrow-left.svg" alt="Обратно" width="24px" height="24px"></a>
             <span class="header__name">Редактировать пост</span>
         </div>
         <form class="input-field" action="/upload-images" method="post" enctype="multipart/form-data">
             <div class="add-photo-container">
                 <div class="add-photo-container__field">
                     <img class="add-photo-container__picture" src="assets/icons/picture.png" alt="Ввод картинки" width="81px" height="81px">
-                    <button class="add-photo-container__post-image-main-button">Добавить фото</button>
+                    <button class="add-photo-container__post-image-main-button" title="Добавить фото">Добавить фото</button>
                     <input style="display: none;" type="file" accept="image/jpeg, image/png" multiple>
                 </div>
             </div>
             <div class="inputs-conteiner">
-                <button class="post-image-button">
+                <button class="post-image-button" title="Добавить фото">
                     <img src="assets/icons/plus.svg" alt="Плюс">
                     <span class="post-image-button__text">Добавить фото</span>
                     <input style="display: none;" type="file" accept="image/jpeg, image/png" multiple>
                 </button>
                 <textarea class="add-info" name="comment" rows="10" maxlength="500" placeholder="Добавьте подпись"></textarea>
-                <button class="save" title="Сохранить">Сохранить изменения</button>
+                <button class="save" title="Сохранить изменения">Сохранить изменения</button>
             </div>
         </form>
     </body>
