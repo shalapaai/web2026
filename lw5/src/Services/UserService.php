@@ -18,6 +18,26 @@ class UserService extends JsonStorageService {
         return null;
     }
 
+    public function create($data, int $authorId): User {
+        $users = $this->readJson();
+        $id = end($users)['id'] + 1;
+        $newUser = [
+            'id' => $id,
+            'name' => $data['name'],
+            'profileStatus' => $data['profileStatus'],
+            'avatar' => $data['uploadedImages'] ?? [],
+            'email'=> $data['email'],
+            'password' => $data['password'],
+            'registeredAt' => time(),
+        ];
+        
+        $users[] = $newUser;
+        print_r($newUser);
+        $this->writeJson($users);
+        
+        return User::fromArray($newUser);
+    }
+
     // public function getByQuery(): Post {
     //     $id = $_GET['id'] ?? 1;
     //     if (!$id) return [];
