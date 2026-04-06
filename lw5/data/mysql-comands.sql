@@ -21,10 +21,10 @@ CREATE TABLE user (
 );
 /*
 запуск mysql
-   mysql -u root
+   mariadb -u root -p
 
 использование бд
-   USE blog;
+   use blog;
 
 показать все таблицы
    SHOW TABLES;
