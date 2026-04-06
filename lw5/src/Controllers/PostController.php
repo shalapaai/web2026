@@ -4,7 +4,6 @@ namespace App\Controllers;
 use App\Services\PostService;
 use App\Services\UserService;
 use App\Core\BaseController;
-use App\Models\Post;
 
 class PostController extends BaseController {
     public function __construct(
@@ -15,12 +14,13 @@ class PostController extends BaseController {
     // Главная страница
     public function home(): void {
         try {
-            $posts = $this->postService->getAll();
-            $users = $this->userService->getAll();
-            $postId = (int)($_GET['postId'] ?? 0);
-            
-            if ($postId > 0) {
-                $posts = array_filter($posts, fn(Post $p) => $p->id === $postId );
+            $postId = ($_GET['postId'] ?? 0);
+            if ($postId) {
+                $posts = [$this->postService->getById($postId)];
+                $users = [$this->userService->getById($posts[0]->authorId)];
+            } else {
+                $posts = $this->postService->getAll();
+                $users = $this->userService->getAll();
             }
             $this->render('home', [
                 'posts' => $posts,
@@ -42,7 +42,7 @@ class PostController extends BaseController {
                 $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
                 $data['uploadedImages'] = $uploadedImages;
                 $authorId = 1;
-                $this->postService->create($data, $authorId);
+                // $this->postService->create($data, $authorId);
             }
             $this->render('create', [
                 // 'posts' => $posts,

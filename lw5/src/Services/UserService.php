@@ -1,42 +1,68 @@
 <?php
 namespace App\Services;
 use App\Models\User;
+use PDO;
+use App\Core\Database;
 
-class UserService extends JsonStorageService {
+class UserService {
+
+    private PDO $pdo;
+    
+    public function __construct() {
+        $this->pdo = Database::getInstance()->getConnection();
+    }
 
     public function getAll(): array {
-        $data = $this->readJson();
+        $stmt = $this->pdo->query("
+            SELECT 
+                id,
+                name,
+                avatar,
+                profileStatus
+            FROM user
+        ");
+        $data = $stmt->fetchAll();
         return array_map(fn($u) => User::fromArray($u), $data);
     }
     
-    public function getById(int $id): ?User {
-        foreach ($this->getAll() as $user) {
-            if ($user->id === $id) {
-                return $user;
-            }
-        }
-        return null;
+    public function getById(string $id): ?User {
+        $stmt = $this->pdo->query("
+            SELECT 
+                id,
+                name,
+                avatar,
+                profileStatus
+            FROM user
+            WHERE id = '$id'
+        ");
+        // $stmt->execute(['id' => $id]);
+        $data = $stmt->fetch();
+        return $data ? User::fromArray($data) : null;
     }
 
-    public function create($data, int $authorId): User {
-        $users = $this->readJson();
-        $id = end($users)['id'] + 1;
-        $newUser = [
-            'id' => $id,
-            'name' => $data['name'],
-            'profileStatus' => $data['profileStatus'],
-            'avatar' => $data['uploadedImages'] ?? [],
-            'email'=> $data['email'],
-            'password' => $data['password'],
-            'registeredAt' => time(),
-        ];
-        
-        $users[] = $newUser;
-        print_r($newUser);
-        $this->writeJson($users);
-        
-        return User::fromArray($newUser);
+    public static function getCurrentUserId(): string {
+        return '0874af11-e313-4e09-8c10-b233f293bf70';
     }
+
+    // public function create($data, int $authorId): User {
+    //     $users = $this->readJson();
+    //     $id = end($users)['id'] + 1;
+    //     $newUser = [
+    //         'id' => $id,
+    //         'name' => $data['name'],
+    //         'profileStatus' => $data['profileStatus'],
+    //         'avatar' => $data['uploadedImages'] ?? [],
+    //         'email'=> $data['email'],
+    //         'password' => $data['password'],
+    //         'registeredAt' => time(),
+    //     ];
+        
+    //     $users[] = $newUser;
+    //     print_r($newUser);
+    //     $this->writeJson($users);
+        
+    //     return User::fromArray($newUser);
+    // }
 
     // public function getByQuery(): Post {
     //     $id = $_GET['id'] ?? 1;

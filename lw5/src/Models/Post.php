@@ -3,8 +3,8 @@ namespace App\Models;
 
 class Post {
     public function __construct(
-        public int $id,
-        public int $authorId,
+        public string $id,
+        public string $authorId,
         public string $content,
         public array $images,
         public int $likes,
@@ -13,12 +13,12 @@ class Post {
 
     public static function fromArray(array $data): self {
         return new self(
-            id: (int)($data['id'] ?? 0),
-            authorId: (int)($data['authorId']),
+            id: ($data['id'] ?? 0),
+            authorId: ($data['authorId']),
             content: $data['content'] ?? '',
             images: (array)($data['images'] ?? []),
             likes: (int)($data['likes'] ?? 0),
-            createdAt: (int)($data['createdAt'] ?? time())
+            createdAt: strtotime($data['createdAt'])
         );
     }
 

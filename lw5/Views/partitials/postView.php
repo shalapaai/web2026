@@ -8,7 +8,7 @@ function renderPost($post, $user) {
             <img class="header__avatar" src="<?= $user->getAvatarUrl() ?>" alt="Аватарка" width="32px" height="32px">
             <span class="header__user-name"><?= htmlspecialchars($user->name) ?></span>
         </a>
-        <?php if ($user->id === 1) { ?>
+        <?php if ($user->id === App\Services\UserService::getCurrentUserId()) { ?>
         <a href="/edit/" title="Редактировать пост">
             <img class="header__edit-post" src="../assets/icons/edit.svg" alt="Редактировать пост" width="24px" height="24px">
         </a>

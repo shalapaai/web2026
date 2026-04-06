@@ -1,48 +1,97 @@
 <?php
 namespace App\Services;
 use App\Models\Post;
+use PDO;
+use App\Core\Database;
 
-class PostService extends JsonStorageService {
+class PostService {
+
+    private PDO $pdo;
+    
+    public function __construct() {
+        $this->pdo = Database::getInstance()->getConnection();
+        // print_r($this->pdo);
+    }
 
     public function getAll(): array {
-        $data = $this->readJson();
+        $stmt = $this->pdo->query("
+            SELECT 
+                p.id,
+                p.authorId,
+                p.content,
+                p.likes,
+                p.createdAt,
+                GROUP_CONCAT(i.path ORDER BY i.path SEPARATOR ',') AS images
+            FROM post p
+            LEFT JOIN image i ON p.id = i.postId
+            GROUP BY p.id
+        ");
+        $data = $stmt->fetchAll();
+        foreach ($data as &$post) {
+            $post = $this->convertImagesToArray($post);
+        }
+        // print_r($data);
         return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
-    public function getById(int $id): ?Post {
-        foreach ($this->getAll() as $post) {
-            if ($post->id === $id) {
-                return $post;
-            }
-        }
-        return null;
+    public function getById(string $id): ?Post {
+        $stmt = $this->pdo->query("
+            SELECT 
+                p.id,
+                p.authorId,
+                p.content,
+                p.likes,
+                p.createdAt,
+                GROUP_CONCAT(i.path ORDER BY i.path SEPARATOR ',') AS images
+            FROM post p
+            LEFT JOIN image i ON p.id = i.postId
+            WHERE id = '$id'
+            GROUP BY p.id
+        ");
+        $data = $stmt->fetch();
+        $data = $this->convertImagesToArray($data);
+        return $data ? Post::fromArray($data) : null;
     }
     
-    public function getByAuthorId(int $authorId): array {
-        return array_values(array_filter(
-            $this->getAll(),
-            fn(Post $p) => $p->authorId === $authorId
-        ));
+    public function getByAuthorId(string $authorId): array {
+        $stmt = $this->pdo->query("
+            SELECT 
+                p.id,
+                p.authorId,
+                p.content,
+                p.likes,
+                p.createdAt,
+                GROUP_CONCAT(i.path ORDER BY i.path SEPARATOR ',') AS images
+            FROM post p
+            LEFT JOIN image i ON p.id = i.postId
+            WHERE authorId = '$authorId'
+            GROUP BY p.id
+        ");
+        $data = $stmt->fetchAll();
+        foreach ($data as &$post) {
+            $post = $this->convertImagesToArray($post);
+        }
+        return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
-    public function create($data, int $authorId): Post {
-        $posts = $this->readJson();
-        $id = end($posts)['id'] + 1;
-        $newPost = [
-            'id' => $id,
-            'authorId' => $authorId,
-            'content' => trim($data['content'] ?? ''),
-            'images' => $data['uploadedImages'] ?? [],
-            'likes' => 0,
-            'createdAt' => time(),
-        ];
+    // public function create($data, int $authorId): Post {
+    //     $posts = $this->readJson();
+    //     $id = end($posts)['id'] + 1;
+    //     $newPost = [
+    //         'id' => $id,
+    //         'authorId' => $authorId,
+    //         'content' => trim($data['content'] ?? ''),
+    //         'images' => $data['uploadedImages'] ?? [],
+    //         'likes' => 0,
+    //         'createdAt' => time(),
+    //     ];
         
-        $posts[] = $newPost;
-        print_r($newPost);
-        $this->writeJson($posts);
+    //     $posts[] = $newPost;
+    //     print_r($newPost);
+    //     $this->writeJson($posts);
         
-        return Post::fromArray($newPost);
-    }
+    //     return Post::fromArray($newPost);
+    // }
 
     public function uploadImages(?array $files): array {
         if (!$files || empty($files['name'][0])) {
@@ -87,5 +136,12 @@ class PostService extends JsonStorageService {
             UPLOAD_ERR_EXTENSION => 'Загрузка прервана расширением PHP',
         ];
         return $messages[$errorCode] ?? 'Неизвестная ошибка';
+    }
+
+    private function convertImagesToArray(array $post): array {
+        $post['images'] = empty($post['images']) 
+            ? [] 
+            : array_map('trim', explode(',', $post['images']));
+        return $post;
     }
 }

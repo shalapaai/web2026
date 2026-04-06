@@ -13,7 +13,7 @@
             <a href="/home/" title="Домой">
                 <img class="icons-bar__icon" src="assets/icons/home.svg" alt="Домой" width="40px" height="40px">
             </a>
-            <a href="/profile?id=1" title="Профиль">
+            <a href="/profile?id=<?= App\Services\UserService::getCurrentUserId() ?>" title="Профиль">
                 <img class="icons-bar__icon" src="assets/icons/profile-active.svg" alt="Профиль" width="40px" height="40px">
             </a>
             <a href="/create/" title="Создать пост">

@@ -4,7 +4,7 @@ namespace App\Models;
 class User {
 
     public function __construct(
-        public int $id,
+        public string $id,
         public string $name,
         public ?string $profileStatus,
         public ?string $avatar,
@@ -15,12 +15,12 @@ class User {
 
     public static function fromArray(array $data): self {
         return new self(
-            id: (int)($data['id'] ?? 0),
-            name: $data['name'],
+            id: ($data['id']) ?? '',
+            name: $data['name'] ?? '',
             profileStatus: $data['profileStatus'] ?? null,
             avatar: $data['avatar'] ?? null,
-            email: $data['email'],
-            password: $data['password'],
+            email: $data['email'] ?? '',
+            password: $data['password'] ?? '',
             registeredAt: (int)($data['registeredAt'] ?? time())
         );
     }

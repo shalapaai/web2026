@@ -13,13 +13,14 @@
             <a href="/home/" title="Домой">
                 <img class="icons-bar__icon" src="assets/icons/home-active.svg" alt="Домой" width="40px" height="40px">
             </a>
-            <a href="/profile?id=1" title="Профиль">
+            <a href="/profile?id=<?= App\Services\UserService::getCurrentUserId() ?>" title="Профиль">
                 <img class="icons-bar__icon" src="assets/icons/profile.svg" alt="Профиль" width="40px" height="40px">
             </a>
             <a href="/create/" title="Создать пост">
                 <img class="icons-bar__icon" src="assets/icons/new-post.svg" alt="Создать пост" width="40px" height="40px">
             </a>
         </nav>
+        
         <div class="top-title"></div>
         <div class="content">
             <?php
@@ -30,5 +31,6 @@
                 }
             ?>
         </div>
+        <script type="module" src="assets/js/app.js"></script>
     </body>
 </html>

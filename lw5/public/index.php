@@ -11,9 +11,10 @@ use App\Services\PostService;
 use App\Services\UserService;
 use App\Controllers\PostController;
 use App\Controllers\UserController;
+
 require_once __DIR__ . '/../src/Models/User.php';
 require_once __DIR__ . '/../src/Models/Post.php';
-require_once __DIR__ . '/../src/Services/JsonStorageService.php';
+require_once __DIR__ . '/../src/Core/Database.php';
 require_once __DIR__ . '/../src/Services/PostService.php';
 require_once __DIR__ . '/../src/Services/UserService.php';
 require_once __DIR__ . '/../src/Core/BaseController.php';
@@ -24,8 +25,8 @@ $uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($uri, PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-$postService = new PostService(__DIR__ . '/../data/posts.json');
-$userService = new UserService(__DIR__ . '/../data/users.json');
+$postService = new PostService();
+$userService = new UserService();
 
 // Маршрутизация
 switch ($path) {
