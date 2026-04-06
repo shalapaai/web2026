@@ -10,21 +10,21 @@ class PostService {
     
     public function __construct() {
         $this->pdo = Database::getInstance()->getConnection();
-        // print_r($this->pdo);
     }
 
     public function getAll(): array {
         $stmt = $this->pdo->query("
             SELECT 
-                p.id,
-                p.authorId,
-                p.content,
-                p.likes,
-                p.createdAt,
-                GROUP_CONCAT(i.path ORDER BY i.path SEPARATOR ',') AS images
-            FROM post p
-            LEFT JOIN image i ON p.id = i.postId
-            GROUP BY p.id
+                post.id,
+                post.authorId,
+                post.content,
+                post.likes,
+                post.createdAt,
+                GROUP_CONCAT(image.path ORDER BY image.path SEPARATOR ',') AS images
+            FROM post
+            LEFT JOIN image ON post.id = image.postId
+            GROUP BY post.id
+            ORDER BY post.createdAt DESC
         ");
         $data = $stmt->fetchAll();
         foreach ($data as &$post) {
@@ -37,16 +37,16 @@ class PostService {
     public function getById(string $id): ?Post {
         $stmt = $this->pdo->query("
             SELECT 
-                p.id,
-                p.authorId,
-                p.content,
-                p.likes,
-                p.createdAt,
-                GROUP_CONCAT(i.path ORDER BY i.path SEPARATOR ',') AS images
-            FROM post p
-            LEFT JOIN image i ON p.id = i.postId
+                post.id,
+                post.authorId,
+                post.content,
+                post.likes,
+                post.createdAt,
+                GROUP_CONCAT(image.path ORDER BY image.path SEPARATOR ',') AS images
+            FROM post
+            LEFT JOIN image ON post.id = image.postId
             WHERE id = '$id'
-            GROUP BY p.id
+            GROUP BY post.id
         ");
         $data = $stmt->fetch();
         $data = $this->convertImagesToArray($data);
@@ -56,16 +56,17 @@ class PostService {
     public function getByAuthorId(string $authorId): array {
         $stmt = $this->pdo->query("
             SELECT 
-                p.id,
-                p.authorId,
-                p.content,
-                p.likes,
-                p.createdAt,
-                GROUP_CONCAT(i.path ORDER BY i.path SEPARATOR ',') AS images
-            FROM post p
-            LEFT JOIN image i ON p.id = i.postId
+                post.id,
+                post.authorId,
+                post.content,
+                post.likes,
+                post.createdAt,
+                GROUP_CONCAT(image.path ORDER BY image.path SEPARATOR ',') AS images
+            FROM post
+            LEFT JOIN image ON post.id = image.postId
             WHERE authorId = '$authorId'
-            GROUP BY p.id
+            GROUP BY post.id
+            ORDER BY post.createdAt DESC
         ");
         $data = $stmt->fetchAll();
         foreach ($data as &$post) {
@@ -74,24 +75,54 @@ class PostService {
         return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
-    // public function create($data, int $authorId): Post {
-    //     $posts = $this->readJson();
-    //     $id = end($posts)['id'] + 1;
-    //     $newPost = [
-    //         'id' => $id,
-    //         'authorId' => $authorId,
-    //         'content' => trim($data['content'] ?? ''),
-    //         'images' => $data['uploadedImages'] ?? [],
-    //         'likes' => 0,
-    //         'createdAt' => time(),
-    //     ];
-        
-    //     $posts[] = $newPost;
-    //     print_r($newPost);
-    //     $this->writeJson($posts);
-        
-    //     return Post::fromArray($newPost);
-    // }
+    public function create(array $data, string $authorId): void {
+        $id = $this->generateUuid();
+        echo $id;  
+        $data['id'] = $id; 
+        $data['authorId'] = $authorId;
+
+        $this->saveToPostTable($data);
+
+        $images = $data['uploadedImages'];
+        foreach ($images as $image) {
+            $this->saveToImageTable($id, $image);
+        }
+    }
+
+    private function generateUuid(): string {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
+        );
+    }
+
+    private function saveToPostTable(array $data): void {
+        $timestamp = time();
+        $query = <<<SQL
+            INSERT INTO post (id, authorId, content, createdAt)
+            VALUES (?, ?, ?, $timestamp)
+            SQL;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([$data['id'], $data['authorId'], $data['content']]);
+        return;
+    }
+
+    private function saveToImageTable(string $id, string $imagePath): void {
+        $query = <<<SQL
+            INSERT INTO image (postId, path)
+            VALUES (?, ?)
+            SQL;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([$id, $imagePath]);
+        return;
+    }
 
     public function uploadImages(?array $files): array {
         if (!$files || empty($files['name'][0])) {

@@ -15,13 +15,13 @@ class User {
 
     public static function fromArray(array $data): self {
         return new self(
-            id: ($data['id']) ?? '',
+            id: $data['id'] ?? 0,
             name: $data['name'] ?? '',
             profileStatus: $data['profileStatus'] ?? null,
             avatar: $data['avatar'] ?? null,
             email: $data['email'] ?? '',
             password: $data['password'] ?? '',
-            registeredAt: (int)($data['registeredAt'] ?? time())
+            registeredAt: $data['registeredAt'] ?? time()
         );
     }
 

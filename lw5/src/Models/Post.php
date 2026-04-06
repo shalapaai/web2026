@@ -13,24 +13,13 @@ class Post {
 
     public static function fromArray(array $data): self {
         return new self(
-            id: ($data['id'] ?? 0),
+            id: ($data['id']),
             authorId: ($data['authorId']),
-            content: $data['content'] ?? '',
-            images: (array)($data['images'] ?? []),
-            likes: (int)($data['likes'] ?? 0),
-            createdAt: strtotime($data['createdAt'])
+            content: $data['content'],
+            images: ($data['images'] ?? []),
+            likes: ($data['likes']),
+            createdAt: $data['createdAt']
         );
-    }
-
-    public function toArray(): array {
-        return [
-            'id' => $this->id,
-            'authorId' => $this->authorId, 
-            'content' => $this->content,
-            'images' => $this->images,
-            'likes' => $this->likes,
-            'createdAt' => $this->createdAt,
-        ];
     }
 
     public function getRelativeTime(): string {

@@ -3,7 +3,7 @@ CREATE TABLE post (
    authorId VARCHAR(36) NOT NULL,
    content MEDIUMTEXT NOT NULL,
    likes INT UNSIGNED DEFAULT 0,
-   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+   createdAt INT UNSIGNED NOT NULL
 );
 CREATE TABLE image (
    postId VARCHAR(36) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE user (
    avatar VARCHAR(255),
    email VARCHAR(254) UNIQUE,
    password VARCHAR(255),
-   registeredAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+   registeredAt INT UNSIGNED NOT NULL
 );
 /*
 запуск mysql
@@ -33,6 +33,11 @@ CREATE TABLE user (
    SELECT * FROM post;
    SELECT * FROM user;
    SELECT * FROM image;
+
+очистить таблицу
+   DELETE FROM post;
+   DELETE FROM user;
+   DELETE FROM image;
 
 вставка в таблицу
    *файлы posts.sql, users.sql*

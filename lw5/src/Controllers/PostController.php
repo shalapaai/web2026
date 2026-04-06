@@ -38,16 +38,17 @@ class PostController extends BaseController {
             // $users = $this->userService->getAll();
             $method = $_SERVER['REQUEST_METHOD'];
             if ($method === 'POST') {
-                $data = $_POST;
+                $postData = $_POST;
                 $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
-                $data['uploadedImages'] = $uploadedImages;
-                $authorId = 1;
-                // $this->postService->create($data, $authorId);
+                $postData['uploadedImages'] = $uploadedImages;
+                $authorId = $this->userService->getCurrentUserId();
+                $this->postService->create($postData, $authorId);
+            } else {
+                $this->render('create', [
+                    // 'posts' => $posts,
+                    // 'users' => $users
+                ]);
             }
-            $this->render('create', [
-                // 'posts' => $posts,
-                // 'users' => $users
-            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();

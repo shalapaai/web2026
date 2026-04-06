@@ -20,9 +20,8 @@ class Database {
                 throw new \Exception(
                     "Ошибка JSON в {$configPath}: " . json_last_error_msg()
                 );
-            }              
-            // print_r($config);
-
+            }         
+            
             $host = $config['host'];
             $port = $config['port'];
             $dbname = $config['dbname'];
@@ -40,13 +39,11 @@ class Database {
         }
     }
 
-    // Получить PDO соединение
     public function getConnection(): PDO {
         return $this->connection;
     }
 
     public static function getInstance(): self {
-        // Если экземпляр ещё не создан — создаём
         if (self::$instance === null) {
             self::$instance = new self();
         }
