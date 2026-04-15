@@ -12,30 +12,32 @@ class UserService {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    public function getAll(): array {
-        $stmt = $this->pdo->query("
+    public function getAllUserList(): array {
+        $query = <<<SQL
             SELECT 
                 id,
                 name,
                 avatar,
                 profileStatus
             FROM user
-        ");
+        SQL;
+        $stmt = $this->pdo->query( $query);
         $data = $stmt->fetchAll();
         return array_map(fn($u) => User::fromArray($u), $data);
     }
     
-    public function getById(string $id): ?User {
-        $stmt = $this->pdo->query("
+    public function getUserById(string $id): ?User {
+        $query = <<<SQL
             SELECT 
                 id,
                 name,
                 avatar,
                 profileStatus
             FROM user
-            WHERE id = '$id'
-        ");
-        // $stmt->execute(['id' => $id]);
+            WHERE id = ?
+            SQL;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$id]);
         $data = $stmt->fetch();
         return $data ? User::fromArray($data) : null;
     }

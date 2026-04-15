@@ -26,8 +26,8 @@ class UserController extends BaseController {
     public function profile(): void {
         try {
             $userId = ($_GET['id'] ?? 0);
-            $user = $this->userService->getById($userId);
-            $posts = $this->postService->getByAuthorId($user->id);
+            $user = $this->userService->getUserById($userId);
+            $posts = $this->postService->getPostsByAuthorId($user->id);
             $this->render('profile', [
                 'posts' => $posts,
                 'user' => $user,

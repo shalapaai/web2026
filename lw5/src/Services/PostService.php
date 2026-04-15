@@ -12,8 +12,8 @@ class PostService {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    public function getAll(): array {
-        $stmt = $this->pdo->query("
+    public function getAllPostList(): array {
+        $query = <<<SQL
             SELECT 
                 post.id,
                 post.authorId,
@@ -25,7 +25,9 @@ class PostService {
             LEFT JOIN image ON post.id = image.postId
             GROUP BY post.id
             ORDER BY post.createdAt DESC
-        ");
+            SQL;
+        $stmt = $this->pdo->query($query);
+        
         $data = $stmt->fetchAll();
         foreach ($data as &$post) {
             $post = $this->convertImagesToArray($post);
@@ -34,8 +36,8 @@ class PostService {
         return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
-    public function getById(string $id): ?Post {
-        $stmt = $this->pdo->query("
+    public function getPostById(string $id): ?Post {
+        $query = <<<SQL
             SELECT 
                 post.id,
                 post.authorId,
@@ -45,16 +47,18 @@ class PostService {
                 GROUP_CONCAT(image.path ORDER BY image.path SEPARATOR ',') AS images
             FROM post
             LEFT JOIN image ON post.id = image.postId
-            WHERE id = '$id'
+            WHERE id = ?
             GROUP BY post.id
-        ");
+            SQL;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$id]);
         $data = $stmt->fetch();
         $data = $this->convertImagesToArray($data);
         return $data ? Post::fromArray($data) : null;
     }
     
-    public function getByAuthorId(string $authorId): array {
-        $stmt = $this->pdo->query("
+    public function getPostsByAuthorId(string $authorId): array {
+        $query = <<<SQL
             SELECT 
                 post.id,
                 post.authorId,
@@ -64,10 +68,12 @@ class PostService {
                 GROUP_CONCAT(image.path ORDER BY image.path SEPARATOR ',') AS images
             FROM post
             LEFT JOIN image ON post.id = image.postId
-            WHERE authorId = '$authorId'
+            WHERE authorId = ?
             GROUP BY post.id
             ORDER BY post.createdAt DESC
-        ");
+            SQL;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$authorId]);
         $data = $stmt->fetchAll();
         foreach ($data as &$post) {
             $post = $this->convertImagesToArray($post);
@@ -75,7 +81,7 @@ class PostService {
         return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
-    public function create(array $data, string $authorId): void {
+    public function createPost(array $data, string $authorId): void {
         $id = $this->generateUuid();
         echo $id;  
         $data['id'] = $id; 

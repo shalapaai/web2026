@@ -16,11 +16,11 @@ class PostController extends BaseController {
         try {
             $postId = ($_GET['postId'] ?? 0);
             if ($postId) {
-                $posts = [$this->postService->getById($postId)];
-                $users = [$this->userService->getById($posts[0]->authorId)];
+                $posts = [$this->postService->getPostById($postId)];
+                $users = [$this->userService->getUserById($posts[0]->authorId)];
             } else {
-                $posts = $this->postService->getAll();
-                $users = $this->userService->getAll();
+                $posts = $this->postService->getAllPostList();
+                $users = $this->userService->getAllUserList();
             }
             $this->render('home', [
                 'posts' => $posts,
@@ -42,7 +42,7 @@ class PostController extends BaseController {
                 $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
                 $postData['uploadedImages'] = $uploadedImages;
                 $authorId = $this->userService->getCurrentUserId();
-                $this->postService->create($postData, $authorId);
+                $this->postService->createPost($postData, $authorId);
             } else {
                 $this->render('create', [
                     // 'posts' => $posts,
