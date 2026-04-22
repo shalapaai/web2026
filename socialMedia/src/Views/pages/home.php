@@ -7,6 +7,7 @@
         <link href="assets/css/fonts.css" rel="stylesheet">
         <link href="assets/css/icons-bar.css" rel="stylesheet">
         <link href="assets/css/home.css" rel="stylesheet">
+        <script type="module" src="assets/js/main.js"></script>
     </head>
     <body>
         <nav class="icons-bar">
@@ -23,14 +24,13 @@
         
         <div class="top-title"></div>
         <div class="content">
-            <?php
+            <!-- <?php
                 require_once __DIR__ . '/../partitials/postView.php';
                 foreach ($posts as $post) {
                     $user = array_find($users, fn($u) => $u->id === $post->authorId);
                     renderPost($post, $user);
                 }
-            ?>
+            ?> -->
         </div>
-        <script type="module" src="assets/js/app.js"></script>
     </body>
 </html>

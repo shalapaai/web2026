@@ -7,6 +7,7 @@
         <link href="assets/css/fonts.css" rel="stylesheet">
         <link href="assets/css/icons-bar.css" rel="stylesheet">
         <link href="assets/css/profile.css" rel="stylesheet">
+        <script type="module" src="assets/js/main.js"></script>
     </head>
     <body>
         <nav class="icons-bar">

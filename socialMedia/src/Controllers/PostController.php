@@ -22,13 +22,51 @@ class PostController extends BaseController {
                 $posts = $this->postService->getAllPostList();
                 $users = $this->userService->getAllUserList();
             }
-            $this->render('home', [
-                'posts' => $posts,
-                'users' => $users
-            ]);
+            // $this->render('home', [
+            //     'posts' => $posts,
+            //     'users' => $users
+            // ]);
+            $this->render('home', []);
         } catch (\Exception $e) {
             http_response_code(500);
             echo 'Ошибка: ' . $e->getMessage();
+        }
+    }
+
+    public function getPostList() {
+        header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
+        try {
+            $posts = $this->postService->getAllPostList();
+            echo json_encode([
+                'success' => true,
+                'data' => $posts,
+            ], JSON_UNESCAPED_UNICODE);
+        } catch (\Exception $e) {
+            http_response_code(500);   
+            echo json_encode([
+                'success' => false,
+                'error' => ['message' => $e->getMessage()]
+            ], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    public function getPost(string $id) {
+        header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
+        try {
+            $post = $this->postService->getPostById($id);
+            // $users = $this->userService->getAllUserList();
+            echo json_encode([
+                'success' => true,
+                'data' => $post,
+            ], JSON_UNESCAPED_UNICODE);
+        } catch (\Exception $e) {
+            http_response_code(500);   
+            echo json_encode([
+                'success' => false,
+                'error' => ['message' => $e->getMessage()]
+            ], JSON_UNESCAPED_UNICODE);
         }
     }
 

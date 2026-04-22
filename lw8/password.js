@@ -22,3 +22,4 @@ function createPassword(len) {
 
 console.log(createPassword(6));
 console.log(createPassword(16));
+console.log(createPassword(8));

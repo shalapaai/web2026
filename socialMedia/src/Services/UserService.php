@@ -35,7 +35,7 @@ class UserService {
                 profileStatus
             FROM user
             WHERE id = ?
-            SQL;
+        SQL;
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([$id]);
         $data = $stmt->fetch();

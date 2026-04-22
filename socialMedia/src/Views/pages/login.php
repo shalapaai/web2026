@@ -6,6 +6,7 @@
         <title>Логинация</title>
         <link href="assets/css/fonts.css" rel="stylesheet">
         <link href="assets/css/login.css" rel="stylesheet">
+        <script type="module" src="assets/js/main.js"></script>
     </head>
     <body>
         <div class="main">

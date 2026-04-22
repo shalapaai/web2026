@@ -7,6 +7,7 @@
         <link href="assets/css/icons-bar-no-adap.css" rel="stylesheet">
         <link href="assets/css/create.css" rel="stylesheet">
         <title>Редактировать пост</title>
+        <script type="module" src="assets/js/main.js"></script>
     </head>
     <body>
         <nav class="icons-bar">

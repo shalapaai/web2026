@@ -56,6 +56,28 @@ switch ($path) {
         $controller->edit();
         break;
     
+    case '/api/posts':
+        $controller = new PostController($postService, $userService);
+        $controller->getPostList();
+        break;
+
+    case '/api/post':
+        $controller = new PostController($postService, $userService);
+        $id = $_GET['id'];
+        $controller->getPost($id);
+        break;
+    
+    case '/api/users':
+        $controller = new UserController($postService, $userService);
+        $controller->getUserList();
+        break;
+
+    case '/api/user':
+        $controller = new UserController($postService, $userService);
+        $id = $_GET['id'];
+        $controller->getUser($id);
+        break;
+    
     default:
         http_response_code(404);
         echo 'Страница не найдена';

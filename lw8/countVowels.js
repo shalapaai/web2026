@@ -9,7 +9,7 @@ function countVowels(str) {
             if (vowels.includes(str[i])) counter++;
         }
     } else {
-        console.log('бубубу')
+        console.log('Неверный формат')
     }
     return counter;
 }
