@@ -24,13 +24,6 @@
         
         <div class="top-title"></div>
         <div class="content">
-            <!-- <?php
-                require_once __DIR__ . '/../partitials/postView.php';
-                foreach ($posts as $post) {
-                    $user = array_find($users, fn($u) => $u->id === $post->authorId);
-                    renderPost($post, $user);
-                }
-            ?> -->
         </div>
     </body>
 </html>

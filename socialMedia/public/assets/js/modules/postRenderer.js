@@ -1,18 +1,55 @@
 import { Slider } from '../ui/Slider.js';
 import { Pluralize } from '../utils/pluralize.js';
+import { ModalWindow } from '../ui/ModalWindow.js';
 
 export class PostRenderer {
-    constructor(container) {
+    constructor(container, posts = []) {
         this.container = container;
         this.pluralize = new Pluralize;
+        this.posts = new Map(posts.map(p => [p.id, p]));
+        this.container.addEventListener('click', (e) => this._onContainerClick(e));
     }
+
+    _onContainerClick(e) {
+        console.log('Clicked');
+        const postDiv = e.target.closest('.post');
+        if (!postDiv) return;
+        
+        const img = e.target.closest('.post-content__image');
+        if (!img) return;
+        
+        if (e.target.closest('.post-content__arrow')) return;
+        
+        // Собираем данные для модалки
+        const postId = postDiv.dataset.postId;
+        console.log(postId);
+
+        const postImages = postDiv._postImages;
+        if (!postImages) {
+            console.log('no images');
+            return;
+        }
+        const fullImages = postImages.map(p => `/uploads/posts${p}`);
+    
+        const currentSrc = img.src;
+        const startIndex = postImages.findIndex(src => 
+            currentSrc.includes(src.split('/').pop())
+        );
+        
+        const modal = new ModalWindow({
+            images: fullImages,
+            startIndex: startIndex >= 0 ? startIndex : 0
+        });
+        modal.open();
+    }
+
     renderPost(post, author) {
-        // const isOwner = author?.id === this.currentUserId;
         const isOwner = true;
         
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
         postDiv.dataset.postId = post.id;
+        postDiv._postImages = post.images || [];
         
         postDiv.innerHTML = `
             <div class="header">
@@ -72,12 +109,7 @@ export class PostRenderer {
 
         if (images.length === 1) {
             return `
-                <img class="post-content__image" 
-                    src="/uploads/posts${images[0]}" 
-                    alt="Post image" 
-                    width="474" height="474"
-                    loading="lazy"
-                    onerror="this.style.display='none'">
+                <img class="post-content__image" src="/uploads/posts${images[0]}" alt="Картинка поста ${this.currentIndex}">
             `;
         } 
         return `<div class="post__slider-container" data-slider></div>`;

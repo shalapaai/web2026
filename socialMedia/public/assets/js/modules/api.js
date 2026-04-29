@@ -1,5 +1,3 @@
-// Предварительно создайте modules/api.js для централизации запросов
-// modules/api.js
 const API_BASE = 'http://localhost:80/api';
 
 export async function request(endpoint, options = {}) {
@@ -18,7 +16,6 @@ export async function request(endpoint, options = {}) {
     }
 
     const rawText = await response.text();
-    console.log('Raw response:', rawText); 
     return JSON.parse(rawText);
 }
 

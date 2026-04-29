@@ -19,6 +19,11 @@ CREATE TABLE user (
    password VARCHAR(255),
    registeredAt INT UNSIGNED NOT NULL
 );
+CREATE TABLE like (
+   postId VARCHAR(36) NOT NULL,
+   userId VARCHAR(36) NOT NULL,
+   PRIMARY KEY (postId, userId)
+);
 INSERT INTO
     post (
         id,
@@ -124,6 +129,51 @@ INSERT INTO
     image (
         postId,
         path
+    )
+VALUES (
+        '07f716e9-5e29-452b-897f-0baa5c790d3e',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '07f716e9-5e29-452b-897f-0baa5c790d3e',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '37f889a3-a728-4a91-b4b0-36d657e93971',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        'b8a67386-0d49-42f5-a03d-7c817b5391ba',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '7e9cd21b-625c-45e6-8b1f-0948fb890a6d',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '32a8a94f-ec98-41a8-bcbb-2bc750c73046',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '2981506d-e9c5-4302-a552-ce29af4cb972',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '2d61e17d-1e2e-4e47-a2e3-acfd81eddc46',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '2d61e17d-1e2e-4e47-a2e3-acfd81eddc46',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    ),
+    (
+        '7da92648-6ce2-4253-827d-8df72d5b836c',
+        'c49163a6-7bf6-49db-8914-9a959671c6bc'
+    );
+INSERT INTO
+    image (
+        postId,
+        imageId
     )
 VALUES (
         '07f716e9-5e29-452b-897f-0baa5c790d3e',
