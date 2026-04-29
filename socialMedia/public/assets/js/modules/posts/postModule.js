@@ -1,11 +1,12 @@
-import { api } from "./api.js";
+import { Api } from "../api.js";
 import { PostRenderer } from "./postRenderer.js";
 
 export class PostModule {
-    constructor(container) {
+    constructor(container, config) {
         this.container = container;
         this.sliders = new Map();
         this.PostRenderer = new PostRenderer(this.container);
+        this.api = new Api(config);
     }
 
     async init() {
@@ -29,18 +30,18 @@ export class PostModule {
     }
 
     async fetchPosts() {
-        return await api.posts.getAllPosts();
+        return await this.api.getAllPosts();
     }
 
     async fetchPost(id) {
-        return await api.posts.getPostById(id);
+        return await this.api.getPostById(id);
     }
 
     async fetchUsers() {
-        return await api.users.getAllUsers();
+        return await this.api.getAllUsers();
     }
 
     async fetchUser(id) {
-        return await api.users.getUserById(id);
+        return await this.api.getUserById(id);
     } 
 }

@@ -10,7 +10,7 @@ class Database {
     
     private function __construct() {
         try {
-            $configPath = __DIR__ . '/../../config.json';   
+            $configPath = __DIR__ . '/../../db-config.json';   
             $json = file_get_contents($configPath);
             if ($json === false) {
                 throw new \Exception("Не удалось прочитать файл: {$configPath}");

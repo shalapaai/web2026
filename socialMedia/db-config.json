@@ -3,6 +3,5 @@
     "port": "3306",
     "dbname": "blog",
     "username": "root",
-    "password": "usAJ60",
-    "apiBase": "http://localhost:3000/api"
+    "password": "usAJ60"
 }

@@ -105,6 +105,20 @@ body {
     cursor: pointer;
 }
 
+.login-form__error {
+    width: 343px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    background-color: #FFECEC;
+    border-radius: 10px;
+    padding-left: 12px;
+    margin-bottom: 16px;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: -0.15px;
+}
+
 @media (max-width: 1024px) {
     .main {
         width: 343px;

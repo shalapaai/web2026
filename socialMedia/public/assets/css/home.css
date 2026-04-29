@@ -92,6 +92,16 @@ body {
     align-items: center;
     position: absolute;
     cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.post-content__arrow:hover {
+    background-color: #FFFFFFCC; 
+}
+
+.post-content__arrow:active {
+    background-color: #FFFFFF1A;  
+    transition: background-color 0.05s ease;
 }
 
 .arrow_left {
@@ -181,6 +191,7 @@ body {
     height: 100%;
     background-color: #22222280;   
     margin: auto; 
+    z-index: 1;
 }
 
 .modal-window-content {

@@ -1,6 +1,7 @@
-import { Slider } from '../ui/Slider.js';
-import { Pluralize } from '../utils/pluralize.js';
-import { ModalWindow } from '../ui/ModalWindow.js';
+import { Slider } from '../../ui/Slider.js';
+import { Pluralize } from '../../utils/pluralize.js';
+import { ModalWindow } from '../../ui/ModalWindow.js';
+import { MoreButton } from '../../ui/MoreButton.js';
 
 export class PostRenderer {
     constructor(container, posts = []) {
@@ -50,6 +51,8 @@ export class PostRenderer {
         postDiv.className = 'post';
         postDiv.dataset.postId = post.id;
         postDiv._postImages = post.images || [];
+
+        const hasLongContent = post.content?.length > 200;
         
         postDiv.innerHTML = `
             <div class="header">
@@ -79,7 +82,7 @@ export class PostRenderer {
                 
                 <p class="post-text">${post.content || ''}</p>
                 
-                ${post.content?.length > 200 ? `
+                ${hasLongContent ? `
                 <button class="read-more" title="Показать ещё" data-action="toggleContent">ещё</button>
                 ` : ''}
                 
@@ -89,6 +92,18 @@ export class PostRenderer {
             </div>
         `;
         this.container.appendChild(postDiv);
+
+        if (hasLongContent) {
+            const textEl = postDiv.querySelector('.post-text');
+            const moreBtn = postDiv.querySelector('.read-more');
+            
+            if (textEl && moreBtn) {
+                new MoreButton({
+                    textElement: textEl,
+                    button: moreBtn
+                });
+            }
+        }
 
         if (post.images?.length > 1) {
             const sliderContainer = postDiv.querySelector('[data-slider]');
