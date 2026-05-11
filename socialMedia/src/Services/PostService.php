@@ -1,10 +1,11 @@
 <?php
 namespace App\Services;
+use App\Core\BaseController;
 use App\Models\Post;
 use PDO;
 use App\Core\Database;
 
-class PostService {
+class PostService extends BaseController {
 
     private PDO $pdo;
     
@@ -93,20 +94,6 @@ class PostService {
         foreach ($images as $image) {
             $this->saveToImageTable($id, $image);
         }
-    }
-
-    private function generateUuid(): string {
-        return sprintf(
-            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0x0fff) | 0x4000,
-            mt_rand(0, 0x3fff) | 0x8000,
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff)
-        );
     }
 
     private function saveToPostTable(array $data): void {

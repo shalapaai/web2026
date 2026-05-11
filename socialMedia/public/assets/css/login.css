@@ -105,6 +105,14 @@ body {
     cursor: pointer;
 }
 
+.login-form__register-button {
+    display: inline-block;
+    margin-top: 10px;
+    border: none;
+    background: none;
+    color: #808080;
+}
+
 .login-form__error {
     width: 343px;
     height: 42px;

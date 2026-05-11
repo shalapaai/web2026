@@ -1,7 +1,9 @@
 // modules/loginModule.js
 export class LoginModule {
-    constructor(container) {
+    constructor(container, config, path) {
         this.container = container;
+        this.config = config;
+        this.path = path;
         
         // Элементы формы
         this.passwordInput = null;
@@ -80,14 +82,39 @@ export class LoginModule {
                 this._showError('🤥 Неверный формат электропочты');
                 return;
             }
+
+            if (password.length < 8 && this.path === '/register') {
+                this._showError('🤓 Мин. число символов для пароля - 8');
+                return;
+            }
             
             try {
-                // Здесь будет запрос к API
-                window.location.href = '/home/';
+                console.log(`http://localhost:80${this.path}`);
+                const response = await fetch(`http://localhost:80${this.path}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({ email, password })
+                });
+                // const text = await response.text();
+                // console.log(text);
+                const result = await response.json();
+                
+                if (result.success) {
+                    window.location.href = '/home/';
+                } else if (result.error === 'invalid_credentials') {
+                    this._showError('🤥 Неверный логин или пароль');
+                } else if (result.error === 'user_exists') {
+                    this._showError('🤥 Пользователь уже существует');
+                } else {
+                    this._showError('🤥 Ошибка');
+                }
+
                 
             } catch (err) {
                 console.error('Login error:', err);
-                this._showError('🤥 Не те логин или пароль...');
+                this._showError('🤥 Ошибка соединения с сервером');
             }
         });
     }

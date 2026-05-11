@@ -18,10 +18,15 @@ export class App {
             const postModule = new PostModule(container, this.config.getConfig());
             postModule.init();
         }
-        if (path === '/login' || path === '/login/') {
+        if (path === '/login' || path === '/login/' || path === '/register' || path === '/register/') {
             const container = document.querySelector('.login-form');
-            const loginModule = new LoginModule(container, this.config.getConfig());
+            const loginModule = new LoginModule(container, this.config.getConfig(), path);
             loginModule.init();
+        }
+        if (path === '/create' || path === '/create/') {
+            const container = document.querySelector('.input-field');
+            const createPostModule = new CreatePostModule(container, this.config.getConfig());
+            createPostModule.init();
         }
     }
 }

@@ -15,9 +15,9 @@ use App\Controllers\UserController;
 require_once __DIR__ . '/../src/Models/User.php';
 require_once __DIR__ . '/../src/Models/Post.php';
 require_once __DIR__ . '/../src/Core/Database.php';
+require_once __DIR__ . '/../src/Core/BaseController.php';
 require_once __DIR__ . '/../src/Services/PostService.php';
 require_once __DIR__ . '/../src/Services/UserService.php';
-require_once __DIR__ . '/../src/Core/BaseController.php';
 require_once __DIR__ . '/../src/Controllers/PostController.php';
 require_once __DIR__ . '/../src/Controllers/UserController.php';
 
@@ -27,6 +27,27 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $postService = new PostService();
 $userService = new UserService();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// 2. Список страниц, куда можно зайти БЕЗ авторизации
+$publicPages = ['/login', '/register'];
+
+// 3. Если страница НЕ публичная И пользователь НЕ авторизован → редирект
+if (!in_array($path, $publicPages)) {
+    if (empty($_SESSION['is_logged']) || $_SESSION['is_logged'] !== true) {
+        header('Location: /login');
+        exit; 
+    }
+}
+if (in_array($path, $publicPages)) {
+    if (!empty($_SESSION['is_logged']) && $_SESSION['is_logged'] === true) {
+        header('Location: /home');
+        exit; 
+    }
+}
 
 // Маршрутизация
 switch ($path) {
@@ -39,6 +60,16 @@ switch ($path) {
     case '/login':
         $controller = new UserController($postService, $userService);
         $controller->login();
+        break;
+    
+    case '/register':
+        $controller = new UserController($postService, $userService);
+        $controller->register();
+        break;
+
+    case '/logout':
+        $controller = new UserController($postService, $userService);
+        $controller->logout();
         break;
     
     case '/profile':
@@ -75,7 +106,7 @@ switch ($path) {
     case '/api/user':
         $controller = new UserController($postService, $userService);
         $id = $_GET['id'];
-        $controller->getUser($id);
+        $controller->getUserById($id);
         break;
     
     default:

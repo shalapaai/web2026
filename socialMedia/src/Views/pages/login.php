@@ -1,3 +1,7 @@
+<?php
+function renderLoginPage(array $data) {
+    extract($data);
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -10,7 +14,7 @@
     </head>
     <body>
         <div class="main">
-            <h1 class="main-header">Войти</h1>
+            <h1 class="main-header"><?= $path === '/login' ? 'Войти' : 'Старт'?></h1>
             <div class="container">
                 <img class="main-image" src="assets/images/main-image.jpg" alt="Заглавная картинка" width="462px" height="501px">
                 <form class="login-form" action="/home/">
@@ -25,8 +29,12 @@
                     </div>
 
                     <button class="login-form__continue-button" title="Продолжить">Продолжить</button>
+                    <a class="login-form__register-button" href="<?= $path === '/login' ? '/register' : '/login'?>/">
+                        <?= $path === '/login' ? 'Зарегистрироваться' : 'Войти'?>
+                    </a>
                 </form>
             </div>
         </div>
     </body>
 </html>
+<?php } ?>

@@ -33,7 +33,7 @@ class PostController extends BaseController {
         }
     }
 
-    public function getPostList() {
+    public function getPostList(): void {
         header('Content-Type: application/json; charset=utf-8');
         header('Access-Control-Allow-Origin: *');
         try {
@@ -51,7 +51,7 @@ class PostController extends BaseController {
         }
     }
 
-    public function getPost(string $id) {
+    public function getPost(string $id): void {
         header('Content-Type: application/json; charset=utf-8');
         header('Access-Control-Allow-Origin: *');
         try {
@@ -79,7 +79,7 @@ class PostController extends BaseController {
                 $postData = $_POST;
                 $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
                 $postData['uploadedImages'] = $uploadedImages;
-                $authorId = $this->userService->getCurrentUserId();
+                $authorId = $_SESSION['user_id'];
                 $this->postService->createPost($postData, $authorId);
             } else {
                 $this->render('create', [

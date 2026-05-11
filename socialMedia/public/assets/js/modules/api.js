@@ -23,7 +23,6 @@ export class Api {
         return rawText ? JSON.parse(rawText) : {};
     }
 
-    // 👇 Posts — просто методы, возвращающие промисы
     getAllPosts() {
         return this.request(`/posts`);
     }
@@ -43,7 +42,6 @@ export class Api {
         });
     }
 
-    // 👇 Users
     getAllUsers() {
         return this.request(`/users`);
     }

@@ -1,3 +1,7 @@
+<?php
+function renderProfilePage(array $data) {
+    extract($data);
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -14,11 +18,14 @@
             <a href="/home/" title="Домой">
                 <img class="icons-bar__icon" src="assets/icons/home.svg" alt="Домой" width="40px" height="40px">
             </a>
-            <a href="/profile?id=<?= App\Services\UserService::getCurrentUserId() ?>" title="Профиль">
+            <a href="/profile?id=<?= $_SESSION['user_id'] ?>" title="Профиль">
                 <img class="icons-bar__icon" src="assets/icons/profile-active.svg" alt="Профиль" width="40px" height="40px">
             </a>
             <a href="/create/" title="Создать пост">
                 <img class="icons-bar__icon" src="assets/icons/new-post.svg" alt="Создать пост" width="40px" height="40px">
+            </a>
+            <a href="/logout/" title="Выйти">
+                <div class="icons-bar__logout-div"><img class="icons-bar__icon" src="assets/icons/logout.svg" alt="Выйти" width="24px" height="24px"></div>
             </a>
         </nav>
         <div class="about-user">
@@ -42,3 +49,4 @@
         </div>
     </body>
 </html>
+<?php } ?>
