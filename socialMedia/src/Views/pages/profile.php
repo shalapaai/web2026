@@ -36,6 +36,12 @@ function renderProfilePage(array $data) {
                 <img class="user-post-counter__image" src="assets/icons/post-counter.svg" alt="Счетчик постов" width="16px" height="16pxs">
                 <span class="user-post-counter__text"><?= count($posts) . ' ' . App\Models\Post::pluralizePosts(count($posts)) ?></span>
             </div>
+            <?php 
+            $currUser = $_SESSION['user_id'];
+            if ($currUser === $user->id) {
+            ?>
+            <button class="edit-profile-button" onclick="window.location.href='/edit/profile?id=<?= $user->id ?>'">Изменить профиль</button>
+            <?php } ?>
         </div>
         <div class="user-posts">
             <?php foreach ($posts as $post) { 

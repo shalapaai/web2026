@@ -51,7 +51,7 @@ body {
     height: 474px;
     background-color: #F2F3F5;
     position: relative;
-    padding-top: 8.5px;
+    /* padding-top: 8.5px; */
 }
 
 .add-photo-container__field {
@@ -120,7 +120,7 @@ body {
 }
 
 .share {
-    background-color: #B4B4B4;
+    background-color: #222222;
     border: none;
     width: 140px;
     height: 48px;
@@ -132,7 +132,7 @@ body {
 }
 
 .save {
-    background-color: #B4B4B4;
+    background-color: #222222;
     border: none;
     width: 230px;
     height: 48px;
@@ -141,6 +141,123 @@ body {
     font-size: 16px;
     margin-top: 50px;
     cursor: pointer;
+}
+
+.add-photo-container__preview {
+    min-height: 200px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-preview__image {
+    max-width: 100%;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+}
+
+.post-preview__slider {
+    width: 100%;
+    max-width: 474px; 
+    margin: 0 auto;
+}
+
+.share:disabled {
+    background-color: #B4B4B4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.save:disabled {
+    background-color: #B4B4B4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.post-preview__delete-btn {
+   position: absolute;
+    top: 20px;
+    left: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #22222280;
+    color: white;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.post-preview__delete-btn:hover {
+    background: rgba(231, 76, 60, 0.9) !important; /* Красный при наведении */
+}
+
+.post-content {
+    position: relative;
+}
+
+.post-content__image {
+    width: 474px;
+    height: 474px;
+    object-fit: cover;
+    object-position: center; 
+    cursor: pointer;
+}
+
+.post-content__arrow {
+    background: #FFFFFF99;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.post-content__arrow:hover {
+    background-color: #FFFFFFCC; 
+}
+
+.post-content__arrow:active {
+    background-color: #FFFFFF1A;  
+    transition: background-color 0.05s ease;
+}
+
+.arrow_left {
+    top: 50%;
+    left: 16px;
+}
+
+.arrow_right {
+    top: 50%;
+    right: 16px;
+}
+
+.post-content__counter {
+    background: #22222280;
+    padding: 3px 10px 3px 10px;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    position: absolute;
+    top: 20px;
+    right: 16px;
 }
 
 @media (max-width: 1024px) {

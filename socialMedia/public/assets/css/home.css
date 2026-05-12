@@ -53,6 +53,8 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 6px;
+    object-fit: cover;
+    object-position: center; 
 }
 
 .header__user-name {
@@ -155,11 +157,17 @@ body {
     color: #222222;
 }
 
+.liked {
+    background-color: #EF53530D;
+    border: 1px solid #FF000030;
+}
+
 .post-text {
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.15px;
     color: #222222;
+    overflow-wrap: break-word; 
 }
 
 .read-more {
@@ -226,6 +234,7 @@ body {
     vertical-align: middle;
     color: #FFFFFF;
 }
+
 
 @media (max-width: 1024px) {
     .top-title::before {

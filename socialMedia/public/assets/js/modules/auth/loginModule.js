@@ -1,9 +1,11 @@
-// modules/loginModule.js
+import { Api } from '../api.js'; 
+
 export class LoginModule {
     constructor(container, config, path) {
         this.container = container;
         this.config = config;
         this.path = path;
+        this.api = new Api(config);
         
         // Элементы формы
         this.passwordInput = null;
@@ -89,17 +91,11 @@ export class LoginModule {
             }
             
             try {
-                console.log(`http://localhost:80${this.path}`);
-                const response = await fetch(`http://localhost:80${this.path}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({ email, password })
-                });
-                // const text = await response.text();
-                // console.log(text);
-                const result = await response.json();
+                let result;
+                (this.path === '/register') 
+                ? result = await this.api.register(email, password)
+                : result = await this.api.login(email, password);
+                
                 
                 if (result.success) {
                     window.location.href = '/home/';

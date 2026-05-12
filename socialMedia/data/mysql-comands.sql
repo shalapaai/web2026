@@ -19,7 +19,7 @@ CREATE TABLE user (
    password VARCHAR(255),
    registeredAt INT UNSIGNED NOT NULL
 );
-CREATE TABLE like (
+CREATE TABLE likes (
    postId VARCHAR(36) NOT NULL,
    userId VARCHAR(36) NOT NULL,
    PRIMARY KEY (postId, userId)
@@ -229,14 +229,17 @@ VALUES (
    SELECT * FROM post;
    SELECT * FROM user;
    SELECT * FROM image;
+   SELECT * FROM likes;
 
 очистить таблицу
    DELETE FROM post;
    DELETE FROM user;
    DELETE FROM image;
+   DELETE FROM likes;
 
 удаление таблицы
    DROP TABLE post;
    DROP TABLE user;
    DROP TABLE image;
+   DROP TABLE likes;
 */

@@ -127,6 +127,21 @@ body {
     letter-spacing: -0.15px;
 }
 
+.user-avatar {
+    width: 123px;
+    height: 123px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e5e7eb;  
+    transition: all 0.2s ease;
+    display: block;
+    margin: 0 auto 16px;
+}
+
+.user-avatar.avatar-preview:hover {
+    transform: scale(1.02);
+}
+
 @media (max-width: 1024px) {
     .main {
         width: 343px;

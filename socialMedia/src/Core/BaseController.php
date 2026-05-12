@@ -3,13 +3,13 @@
 namespace App\Core;
 
 abstract class BaseController {
-    protected function getCurrentUser(): ?array {
+    protected function getCurrentUser(): ?string {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
         if (isset($_SESSION['user_id'])) {
-            return ['id' => $_SESSION['user_id']];
+            return $_SESSION['user_id'];
         }
         return null;
     }
@@ -31,6 +31,9 @@ abstract class BaseController {
                 break;
             case 'profile':
                 renderProfilePage($data);
+                break;
+            case 'editProfile':
+                renderEditProfilePage($data);
                 break;
         }   
     }

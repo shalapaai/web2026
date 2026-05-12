@@ -28,12 +28,10 @@ class PostService extends BaseController {
             ORDER BY post.createdAt DESC
             SQL;
         $stmt = $this->pdo->query($query);
-        
         $data = $stmt->fetchAll();
         foreach ($data as &$post) {
             $post = $this->convertImagesToArray($post);
         }
-        // print_r($data);
         return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
@@ -82,17 +80,80 @@ class PostService extends BaseController {
         return array_map(fn($p) => Post::fromArray($p), $data);
     }
 
-    public function createPost(array $data, string $authorId): void {
+    public function createPost(array $data, string $authorId): string {
         $id = $this->generateUuid();
-        echo $id;  
         $data['id'] = $id; 
         $data['authorId'] = $authorId;
-
         $this->saveToPostTable($data);
-
         $images = $data['uploadedImages'];
         foreach ($images as $image) {
             $this->saveToImageTable($id, $image);
+        }
+        return $id;
+    }
+
+    public function updatePost(array $data, string $authorId): bool {
+        $postId = $data['id'] ?? null;
+        if (!$postId) {
+            throw new \Exception('Post ID is required');
+        }
+        $query = "SELECT id FROM post WHERE id = ? AND authorId = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$postId, $authorId]);
+        if (!$stmt->fetch()) return false;
+        if (isset($data['content'])) {
+            $query = "UPDATE post SET content = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([$data['content'], $postId]);
+        }
+        foreach ($data['newImages'] ?? [] as $imagePath) {
+            $this->saveToImageTable($postId, $imagePath);
+        }
+        $removedPaths = $data['removedImagePaths'] ?? [];
+        if (!empty($removedPaths)) {
+            foreach ($removedPaths as $path) {
+                $normalizedPath = $this->normalizeImagePath($path);
+                $query = "DELETE FROM image WHERE postId = ? AND path = ?";
+                $stmt = $this->pdo->prepare($query);
+                $stmt->execute([$postId, $normalizedPath]);
+                $this->deleteImageFile($path);
+            }
+        }
+        return true;
+    }
+
+    private function normalizeImagePath(string $path): string {
+        // Убираем префикс /uploads/posts/ если есть
+        $normalized = preg_replace('#^/uploads/posts/#i', '/', $path);
+        // Убираем дубли слэшей
+        $normalized = preg_replace('#/+#', '/', $normalized);
+        return $normalized;
+    }
+
+    private function deleteImageFile(string $path): void {
+        // Нормализуем путь
+        $path = preg_replace('#/+#', '/', $path);
+        $path = trim($path, '/');
+        
+        // Защита от обхода через ../
+        if (strpos($path, '..') !== false) {
+            error_log("Blocked path traversal: $path");
+            return;
+        }
+        
+        // Разрешаем только uploads/posts
+        if (strpos($path, 'uploads/posts') !== 0) {
+            error_log("Blocked deletion outside allowed dir: $path");
+            return;
+        }
+        
+        // Собираем абсолютный путь
+        $publicDir = realpath(__DIR__ . '/../../public');
+        $filePath = realpath($publicDir . '/' . $path);
+        
+        if ($filePath && strpos($filePath, $publicDir) === 0 && file_exists($filePath)) {
+            @unlink($filePath);  // @ подавляет предупреждения
+            error_log("Deleted image: $filePath");
         }
     }
 
@@ -167,5 +228,57 @@ class PostService extends BaseController {
             ? [] 
             : array_map('trim', explode(',', $post['images']));
         return $post;
+    }
+
+    public function findLike(string $userId, string $postId): bool {
+        $query = <<<SQL
+            SELECT *
+            FROM likes
+            WHERE userId = ? AND postId = ?
+            SQL;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$userId, $postId]);
+        return (bool) $stmt->fetch();
+    }
+
+    public function addLike(string $userId, string $postId, int $postLikes) {
+        $this->addLikeToLikesTable($userId, $postId);
+        $this->updateLikeToPostTable($postId, $postLikes);
+    }
+
+    private function addLikeToLikesTable(string $userId, string $postId) {
+        $query = <<<SQL
+            INSERT INTO likes (userId, postId)
+            VALUES (?, ?)
+            SQL;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([$userId, $postId]);
+        return;
+    }
+
+    public function removeLike(string $userId, string $postId, int $postLikes) {
+        $this->removeLikeFromLikesTable($userId, $postId);
+        $this->updateLikeToPostTable($postId, $postLikes);
+    }
+
+    private function removeLikeFromLikesTable(string $userId, string $postId) {
+        $query = <<<SQL
+            DELETE FROM likes
+            WHERE userId = ? AND postId = ?
+            SQL;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([$userId, $postId]);
+        return;
+    }
+
+    private function updateLikeToPostTable(string $postId, int $postLikes) {
+        $query = <<<SQL
+            UPDATE post 
+            SET likes = ?
+            WHERE id = ?
+            SQL;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([$postLikes, $postId]);
+        return;
     }
 }

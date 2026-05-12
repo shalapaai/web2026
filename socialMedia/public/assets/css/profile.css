@@ -27,6 +27,8 @@ body {
     height: 123px;
     border-radius: 16px;
     margin-bottom: 20px;
+    object-fit: cover;
+    object-position: center; 
 }
 
 .user-name {
@@ -90,6 +92,31 @@ body {
     border-radius: 2px;
     object-fit: cover;
     object-position: center; 
+}
+
+.edit-profile-button {
+    margin-top: 16px;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.15px;
+    color: #3b82f6;
+    background: transparent;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-profile-button:hover {
+    background: #3b82f6;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.edit-profile-button:active {
+    transform: translateY(0);
 }
 
 @media (max-width: 1024px) {

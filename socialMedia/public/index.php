@@ -32,10 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 2. Список страниц, куда можно зайти БЕЗ авторизации
-$publicPages = ['/login', '/register'];
-
-// 3. Если страница НЕ публичная И пользователь НЕ авторизован → редирект
+$publicPages = ['/login', '/register', '/api/login', '/api/register'];
 if (!in_array($path, $publicPages)) {
     if (empty($_SESSION['is_logged']) || $_SESSION['is_logged'] !== true) {
         header('Location: /login');
@@ -54,15 +51,45 @@ switch ($path) {
     case '/':
     case '/home':
         $controller = new PostController($postService, $userService);
-        $controller->home();
+        $controller->renderHome();
         break;
     
     case '/login':
         $controller = new UserController($postService, $userService);
+        $controller->renderLogin();
+        break;
+
+    case '/register':
+        $controller = new UserController($postService, $userService);
+        $controller->renderRegister();
+        break;
+
+    case '/profile':
+        $controller = new UserController($postService, $userService);
+        $controller->renderProfile();
+        break;
+
+    case '/edit/profile':
+        $controller = new UserController($postService, $userService);
+        $controller->renderEditProfile();
+        break;
+
+    case '/create':
+        $controller = new PostController($postService, $userService);
+        $controller->renderCreate();
+        break;
+
+    case '/edit':
+        $controller = new PostController($postService, $userService);
+        $controller->renderEdit();
+        break;
+
+    case '/api/login':
+        $controller = new UserController($postService, $userService);
         $controller->login();
         break;
-    
-    case '/register':
+
+    case '/api/register':
         $controller = new UserController($postService, $userService);
         $controller->register();
         break;
@@ -71,20 +98,21 @@ switch ($path) {
         $controller = new UserController($postService, $userService);
         $controller->logout();
         break;
-    
-    case '/profile':
+
+    case '/api/edit/profile':
         $controller = new UserController($postService, $userService);
-        $controller->profile();
+        $controller->editProfile();
         break;
-    
-    case '/create':
+
+    case '/api/create':
         $controller = new PostController($postService, $userService);
         $controller->create();
         break;
     
-    case '/edit':
+    case '/api/edit':
         $controller = new PostController($postService, $userService);
-        $controller->edit();
+        $id = $_GET['postId'];
+        $controller->edit($id);
         break;
     
     case '/api/posts':
@@ -107,6 +135,25 @@ switch ($path) {
         $controller = new UserController($postService, $userService);
         $id = $_GET['id'];
         $controller->getUserById($id);
+        break;
+
+    case '/api/signed/user':
+        $controller = new UserController($postService, $userService);
+        $controller->getUserById($_SESSION['user_id']);
+        break;
+
+    case '/api/post/like':
+        $postId = $_GET['postId'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new PostController($postService, $userService);
+            $controller->toggleLike($postId);
+        }
+        break;
+
+    case '/api/post/like/status':
+        $postId = $_GET['postId'];
+        $controller = new PostController($postService, $userService);
+        $controller->isLiked($postId);
         break;
     
     default:

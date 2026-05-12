@@ -47,7 +47,7 @@ function renderEditPage(array $data) {
                     <input style="display: none;" type="file" accept="image/jpeg, image/png" multiple>
                 </button>
                 <textarea class="add-info" name="comment" rows="10" maxlength="500" placeholder="Добавьте подпись"></textarea>
-                <button class="save" title="Сохранить изменения">Сохранить изменения</button>
+                <button type="button" class="save" title="Сохранить изменения">Сохранить изменения</button>
             </div>
         </form>
     </body>

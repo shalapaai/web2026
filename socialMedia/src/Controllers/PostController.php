@@ -11,26 +11,18 @@ class PostController extends BaseController {
         private UserService $userService
     ) {}
 
-    // Главная страница
-    public function home(): void {
-        try {
-            $postId = ($_GET['postId'] ?? 0);
-            if ($postId) {
-                $posts = [$this->postService->getPostById($postId)];
-                $users = [$this->userService->getUserById($posts[0]->authorId)];
-            } else {
-                $posts = $this->postService->getAllPostList();
-                $users = $this->userService->getAllUserList();
-            }
-            // $this->render('home', [
-            //     'posts' => $posts,
-            //     'users' => $users
-            // ]);
-            $this->render('home', []);
-        } catch (\Exception $e) {
-            http_response_code(500);
-            echo 'Ошибка: ' . $e->getMessage();
-        }
+    public function renderHome(): void {
+        $this->render('home', []);
+    }
+
+    public function renderCreate(): void {
+        $this->render('create', []);
+        return;
+    }
+
+    public function renderEdit(): void {
+        $this->render('edit', []);
+        return;
     }
 
     public function getPostList(): void {
@@ -56,7 +48,6 @@ class PostController extends BaseController {
         header('Access-Control-Allow-Origin: *');
         try {
             $post = $this->postService->getPostById($id);
-            // $users = $this->userService->getAllUserList();
             echo json_encode([
                 'success' => true,
                 'data' => $post,
@@ -72,38 +63,115 @@ class PostController extends BaseController {
 
     public function create(): void {
         try {
-            // $posts = $this->postService->getAll();
-            // $users = $this->userService->getAll();
-            $method = $_SERVER['REQUEST_METHOD'];
-            if ($method === 'POST') {
-                $postData = $_POST;
-                $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
-                $postData['uploadedImages'] = $uploadedImages;
-                $authorId = $_SESSION['user_id'];
-                $this->postService->createPost($postData, $authorId);
-            } else {
-                $this->render('create', [
-                    // 'posts' => $posts,
-                    // 'users' => $users
-                ]);
+            $content = trim($_POST['content'] ?? '');
+            $uploadedImages = $this->postService->uploadImages($_FILES['images'] ?? null);
+            if (!$content) {
+                http_response_code(400);
+                $this->sendJson(false, 'missing_content', 'Введите текст поста');
+                return;
             }
+            if (empty($uploadedImages)) {
+                http_response_code(400);
+                $this->sendJson(false, 'no_images', 'Добавьте хотя бы одно фото');
+                return;
+            }
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            $authorId = $_SESSION['user_id'] ?? null;
+            if (!$authorId) {
+                http_response_code(401);
+                $this->sendJson(false, 'unauthorized', 'Требуется авторизация');
+                return;
+            }
+            $postData = [
+                'content' => $content,
+                'uploadedImages' => $uploadedImages
+            ];
+            $postId = $this->postService->createPost($postData, $authorId);
+            $this->sendJson(true, null, null, ['postId' => $postId]);
         } catch (\Exception $e) {
+            error_log('Create post error: ' . $e->getMessage());
             http_response_code(500);
-            echo 'Ошибка: ' . $e->getMessage();
+            $this->sendJson(false, 'server_error', 'Ошибка сервера');
         }
     }
     
-    public function edit(): void {
+    public function edit(string $id): void {
         try {
-            // $posts = $this->postService->getAll();
-            // $users = $this->userService->getAll();
-            $this->render('edit', [
-                // 'posts' => $posts,
-                // 'users' => $users,
-            ]);
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            $authorId = $_SESSION['user_id'] ?? null;
+            
+            if (!$authorId) {
+                http_response_code(401);
+                $this->sendJson(false, 'unauthorized', 'Требуется авторизация');
+                return;
+            }
+            $content = trim($_POST['content'] ?? '');
+            $existingImagePaths = json_decode($_POST['existing_images'] ?? '[]', true) ?? [];
+            $removedImagePaths = json_decode($_POST['removed_images'] ?? '[]', true) ?? [];
+            $newImages = $this->postService->uploadImages($_FILES['images'] ?? null);
+            
+            $hasImages = !empty($existingImagePaths) || !empty($newImages);
+            if (!$content && !$hasImages) {
+                http_response_code(400);
+                $this->sendJson(false, 'missing_content', 'Введите текст или добавьте фото');
+                return;
+            }
+            
+            $postData = [
+                'id' => $id,  
+                'content' => $content,
+                'newImages' => $newImages,              
+                'existingImagePaths' => $existingImagePaths,
+                'removedImagePaths' => $removedImagePaths   
+            ];
+            $updated = $this->postService->updatePost($postData, $authorId);
+            if (!$updated) {
+                http_response_code(404);
+                $this->sendJson(false, 'not_found', 'Пост не найден');
+                return;
+            }
+            $this->sendJson(true, null, null, ['postId' => $id]);
         } catch (\Exception $e) {
+            error_log('Edit post error: ' . $e->getMessage());
             http_response_code(500);
-            echo 'Ошибка: ' . $e->getMessage();
+            $this->sendJson(false, 'server_error', 'Ошибка сервера');
+        }
+    }
+
+    public function toggleLike(string $postId) {
+        $postLikes = ($this->postService->getPostById($postId))->likes;
+        $userId = $_SESSION['user_id'];
+        try {
+            $isLiked = $this->postService->findLike($userId, $postId);
+            if (!$isLiked) {
+                $postLikes++;
+                $this->postService->addLike($userId, $postId, $postLikes);
+            } else {
+                $postLikes--;
+                $this->postService->removeLike($userId, $postId, $postLikes);
+            }
+            $this->sendJson(true, null, null, ['postId' => $postId]);
+        } catch (\Exception $e) {
+            http_response_code(500);   
+            echo json_encode([
+                'success' => false,
+                'error' => ['message' => $e->getMessage()]
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        
+    }
+
+    public function isLiked(string $postId) {
+        $userId = $_SESSION['user_id'];
+        try {
+            $isLiked = $this->postService->findLike($userId, $postId);
+            $this->sendJson(true, null, null, ['isLiked' => $isLiked]);
+        } catch (\Exception $e) {
+            http_response_code(500);   
+            echo json_encode([
+                'success' => false,
+                'error' => ['message' => $e->getMessage()]
+            ], JSON_UNESCAPED_UNICODE);
         }
     }
 }

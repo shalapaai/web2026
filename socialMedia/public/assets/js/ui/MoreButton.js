@@ -33,11 +33,7 @@ export class MoreButton {
 
     _truncateText(text, limit) {
         if (text.length <= limit) return text;
-        let truncated = text.slice(0, limit);
-        const lastSpace = truncated.lastIndexOf(' ');
-        if (lastSpace > limit * 0.8) { // если пробел недалеко от конца
-            truncated = truncated.slice(0, lastSpace);
-        }
+        const truncated = text.slice(0, limit);
         return truncated + '…';
     }
 

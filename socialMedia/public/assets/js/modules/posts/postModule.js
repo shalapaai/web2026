@@ -5,7 +5,7 @@ export class PostModule {
     constructor(container, config) {
         this.container = container;
         this.sliders = new Map();
-        this.PostRenderer = new PostRenderer(this.container);
+        this.PostRenderer = new PostRenderer(this.container, config);
         this.api = new Api(config);
     }
 
@@ -16,16 +16,16 @@ export class PostModule {
         let users;
         if (postId) {
             posts = [(await this.fetchPost(postId)).data]; 
-            // users = [(await this.fetchUser(posts[0].userId)).data]; 
             users = (await this.fetchUsers()).data; 
         } else {
             posts = (await this.fetchPosts()).data; 
             users = (await this.fetchUsers()).data; 
         }
+        const currUser = (await this.api.getSignedUser()).data;
         
         posts.forEach(post => {
             const author = users.find(u => u.id === post.authorId);
-            this.PostRenderer.renderPost(post, author);
+            this.PostRenderer.renderPost(currUser.id, post, author);
         });
     }
 

@@ -11,6 +11,36 @@ class UserController extends BaseController {
         private UserService $userService        
     ) {}
 
+    public function renderProfile(): void {
+        $userId = ($_GET['id'] ?? $this->getCurrentUser());
+        $user = $this->userService->getUserById($userId);
+        $posts = $this->postService->getPostsByAuthorId($user->id);
+        $this->render('profile', [
+            'posts' => $posts,
+            'user' => $user,
+        ]);
+    }
+
+    public function renderEditProfile(): void {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $userId = $_GET['id'] ?? '';
+        $user = $this->userService->getUserById($userId);
+        $this->render('editProfile', ['user' => $user]);
+        return;
+    }
+
+    public function renderLogin(): void {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $this->render('login', ['path' => '/login']);
+        return;
+    }
+
+    public function renderRegister(): void {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $this->render('login', ['path' => '/register']);
+        return;
+    }
+
     public function getUserList(): void {
         header('Content-Type: application/json; charset=utf-8');
         header('Access-Control-Allow-Origin: *');
@@ -49,21 +79,16 @@ class UserController extends BaseController {
 
     public function login(): void {
         if (session_status() === PHP_SESSION_NONE) session_start();
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->render('login', ['path' => '/login']);
-            return;
-        }
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
 
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
+        $email = trim($input['email'] ?? '');
+        $password = $input['password'] ?? '';
 
         if (!$email || !$password) {
             $this->sendJson(false, 'missing_fields', 'Заполните все поля');
             return;
         }
-
         $user = $this->userService->getUserByEmail($email);
-
         if (!$user || !password_verify($password, $user->password)) {
             $this->sendJson(false, 'invalid_credentials', 'Неверный email или пароль');
             return;
@@ -78,19 +103,15 @@ class UserController extends BaseController {
 
     public function register(): void {
         if (session_status() === PHP_SESSION_NONE) session_start();
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->render('login', ['path' => '/register']);
-            return;
-        }
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
 
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
+        $email = trim($input['email'] ?? '');
+        $password = $input['password'] ?? '';
 
         if (!$email || !$password) {
             $this->sendJson(false, 'missing_fields', 'Заполните все поля');
             return;
         }
-
         if ($this->userService->getUserByEmail($email)) {
             $this->sendJson(false, 'user_exists', 'Этот email уже зарегистрирован');
             return;
@@ -103,19 +124,15 @@ class UserController extends BaseController {
             $this->sendJson(false, 'db_error', 'Ошибка при создании аккаунта');
             return;
         }
-
         session_regenerate_id(true);
         $_SESSION['user_id'] = $user->id;
-        
         $_SESSION['is_logged'] = true;
 
         $this->sendJson(true, null, null, ['userId' => $user->id]);
     }
 
     public function logout(): void {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        if (session_status() === PHP_SESSION_NONE) session_start();
         $_SESSION = [];
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
@@ -134,18 +151,38 @@ class UserController extends BaseController {
         exit;
     }
 
-    public function profile(): void {
+    public function editProfile(): void {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $userId = $_GET['id'] ?? '';
+        $user = $this->userService->getUserById($userId);
+        
         try {
-            $userId = ($_GET['id'] ?? $this->getCurrentUser());
-            $user = $this->userService->getUserById($userId);
-            $posts = $this->postService->getPostsByAuthorId($user->id);
-            $this->render('profile', [
-                'posts' => $posts,
-                'user' => $user,
+            $name = trim($_POST['name'] ?? '');
+            $content = trim($_POST['profileStatus'] ?? '');
+            $avatarPath = $user->avatar;
+            
+            if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+                $avatarPath = $this->userService->uploadAvatar($_FILES['avatar']);
+            } elseif (!empty($_POST['existingAvatarPath'])) {
+                $avatarPath = $_POST['existingAvatarPath'];
+            }
+            // Иначе оставляем $user->avatar (ничего не меняем)
+            
+            $updated = $this->userService->updateUser($userId, [
+                'name' => $name,
+                'profileStatus' => $content,
+                'avatar' => $avatarPath
             ]);
+            if (!$updated) {
+                http_response_code(404);
+                $this->sendJson(false, 'not_found', 'Пользователь не найден');
+                return;
+            }
+            $this->sendJson(true, null, null, ['userId' => $userId]);
         } catch (\Exception $e) {
+            error_log('Edit profile error: ' . $e->getMessage());
             http_response_code(500);
-            echo 'Ошибка: ' . $e->getMessage();
+            $this->sendJson(false, 'server_error', 'Ошибка сервера');
         }
     }
 }
