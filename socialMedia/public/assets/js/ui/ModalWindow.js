@@ -103,14 +103,6 @@ export class ModalWindow {
         if (e.key === 'Escape') {
             e.preventDefault();
             this.close();
-        } else if (this.images.length > 1 && this._slider) {
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                this._slider.prev();
-            } else if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                this._slider.next();
-            }
         }
     }
 }

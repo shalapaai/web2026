@@ -101,7 +101,6 @@ export class EditPostModule extends CreatePostModule {
     _deleteImageAtIndex(index) {
         console.log(`_deleteImageAtIndex: ${index}`);
         
-        //  Если удаляем существующую картинку - запоминаем путь
         const deleted = this.images[index];
         if (deleted?.isExisting && deleted.existingPath) {
             this.removedImagePaths.push(deleted.existingPath);

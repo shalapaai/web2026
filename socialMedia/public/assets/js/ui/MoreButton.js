@@ -2,7 +2,7 @@ export class MoreButton {
     constructor(options = {}) {
         this.textElement = options.textElement; 
         this.button = options.button; 
-        this.limit = 200;
+        this.limit = 130;
         this.expandedText = 'свернуть';
         this.collapsedText = 'ещё';
         

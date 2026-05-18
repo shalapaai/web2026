@@ -51,6 +51,8 @@ export class PostRenderer {
         const hasLongContent = post.content?.length > 200;
         const isLiked = (await this.api.checkUserLike(post.id)).data.isLiked;
         console.log('isLiked: ', isLiked);
+        console.log(author?.avatar);
+        if (!author.avatar) author.avatar = '/default-avatar.png';
         
         postDiv.innerHTML = `
             <div class="header">
