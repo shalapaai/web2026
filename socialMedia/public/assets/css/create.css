@@ -9,11 +9,14 @@ body {
     color: #222222;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header {
-    display: none;
-    height: 50px;
+    display: flex;
+    justify-content: center;
+    height: 100px;
     width: 100vw;
     border-bottom: 1px solid #2222220D;
     position: relative;
@@ -30,8 +33,8 @@ body {
 
 .header__name {
     font-weight: 700;
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 18px;
     letter-spacing: -0.15px;
     position: absolute;
     transform: translateX(-50%);
@@ -40,15 +43,15 @@ body {
 }
 
 .input-field {
-    padding-top: 82px;
-    width: 474px;
+    padding-top: 32px;
+    width: 393px;
     height: 100vh;
     position: relative;
 }
 
 .add-photo-container {
     width: 100%;
-    height: 474px;
+    height: 393px;
     background-color: #F2F3F5;
     position: relative;
     /* padding-top: 8.5px; */
@@ -85,8 +88,7 @@ body {
 }
 
 .inputs-conteiner {
-    padding-top: 20px;
-    padding-bottom: 32px;
+    padding: 10px 16px 48px 16px;
 }
 
 .post-image-button {
@@ -122,7 +124,7 @@ body {
 .share {
     background-color: #222222;
     border: none;
-    width: 140px;
+    width: 100%;
     height: 48px;
     color: #FFFFFF;
     border-radius: 10px;
@@ -134,7 +136,7 @@ body {
 .save {
     background-color: #222222;
     border: none;
-    width: 230px;
+    width: 100%;
     height: 48px;
     color: #FFFFFF;
     border-radius: 10px;
@@ -200,7 +202,7 @@ body {
 }
 
 .post-preview__delete-btn:hover {
-    background: rgba(231, 76, 60, 0.9) !important; /* Красный при наведении */
+    background: rgba(231, 76, 60, 0.9) !important;
 }
 
 .post-content {
@@ -208,8 +210,8 @@ body {
 }
 
 .post-content__image {
-    width: 474px;
-    height: 474px;
+    width: 393px;
+    height: 393px;
     object-fit: cover;
     object-position: center; 
     cursor: pointer;
@@ -220,7 +222,7 @@ body {
     border: none;
     border-radius: 50%;
     padding: 5px;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -260,46 +262,68 @@ body {
     right: 16px;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 769px) {
     body {
+        justify-content: center;
         flex-direction: column;
-        align-items: center;
-        justify-content: start;
-    }
-
-    .input-field {
-        padding-top: 32px;
     }
 
     .header {
         display: flex;
         justify-content: center;
-    }
-
-    .share, .save {
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .header {
-        height: 100px;
+        height: 50px;
     }
 
     .header__name {
-        font-size: 16px;
-        line-height: 18px;
+        font-size: 20px;
+        line-height: 20px;
     }
 
     .input-field {
-        width: 393px;
+        padding-top: 32px;
+        width: 474px;
     }
 
     .add-photo-container {
-        height: 393px;
+        height: 474px;
     }
 
     .inputs-conteiner {
-        padding: 10px 16px 48px 16px;
+        padding-top: 20px;
+        padding-bottom: 32px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .share,
+    .save {
+        width: 100%;
+    }
+
+    .post-content__image {
+        width: 474px;
+        height: 474px;
+    }
+
+    .post-content__arrow {
+        display: flex;
+    }
+}
+
+@media (min-width: 1025px) {
+    .header {
+        display: none;
+    }
+
+    .input-field {
+        padding-top: 82px;
+    }
+
+    .share {
+        width: 140px;
+    }
+
+    .save {
+        width: 230px;
     }
 }

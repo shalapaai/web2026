@@ -13,20 +13,19 @@ body {
 }
 
 .main {
-    width: 1122px;
-    padding: 107px 90px  107px 90px;
+    width: 343px;
+    padding: 0;
     position: relative;
 }
 
 .main-header {
-    font-size: 140px;
-    font-weight: 700;
-    letter-spacing: -1.5px;
-    line-height: 180px;
     position: absolute;
     top: 0;
     left: 0;
     color: #222222;
+    font-size: 75px;
+    line-height: 95.54px;
+    letter-spacing: -0.8px;
 }
 
 .container {
@@ -34,11 +33,14 @@ body {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .main-image {
-    width: 462px;
-    height: 501px;
+    width: 247px;
+    height: 268px;
+    margin-top: 57px;
 }
 
 .login-form {
@@ -142,27 +144,26 @@ body {
     transform: scale(1.02);
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 1024px) {
     .main {
-        width: 343px;
-        padding: 0;
-        position: relative;
+        width: 1122px;
+        padding: 107px 90px  107px 90px;
     }
 
     .main-header {
-        font-size: 75px;
-        line-height: 95.54px;
-        letter-spacing: -0.8px;
+        font-size: 140px;
+        letter-spacing: -1.5px;
+        line-height: 180px;
     }
 
     .main-image {
-        width: 247px;
-        height: 268px;
-        margin-top: 57px;
+        width: 462px;
+        height: 501px;
+        margin-top: 0;
     }
 
     .container {
-        flex-direction: column;
-        gap: 24px;
+        flex-direction: row;
+        gap: 0;
     }
 }
