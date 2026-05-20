@@ -122,7 +122,7 @@ body {
     transform: translateY(0);
 }
 
-@media (min-width: 769px) {
+@media screen and (min-width: 769px) {
     .about-user {
         margin-top: 111px;
     }
@@ -137,7 +137,7 @@ body {
     }
 }
 
-@media (min-width: 1025px) {
+@media screen and (min-width: 1025px) {
     .about-user {
         margin-top: 97px;
     }

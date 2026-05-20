@@ -262,7 +262,7 @@ body {
     right: 16px;
 }
 
-@media (min-width: 769px) {
+@media screen and (min-width: 769px) {
     body {
         justify-content: center;
         flex-direction: column;
@@ -310,7 +310,7 @@ body {
     }
 }
 
-@media (min-width: 1025px) {
+@media screen and (min-width: 1025px) {
     .header {
         display: none;
     }

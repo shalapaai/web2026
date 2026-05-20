@@ -5,7 +5,7 @@ export class Config {
     async loadConfig() {
         if (this.config) return this.config;
         
-        const response = await fetch('../config.json');
+        const response = await fetch('../../config.json');
         this.config = await response.json();
         return this.config;
     }

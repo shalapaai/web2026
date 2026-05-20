@@ -144,7 +144,7 @@ body {
     transform: scale(1.02);
 }
 
-@media (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
     .main {
         width: 1122px;
         padding: 107px 90px  107px 90px;

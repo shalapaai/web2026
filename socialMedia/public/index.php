@@ -34,17 +34,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $publicPages = ['/login', '/register', '/api/login', '/api/register'];
 if (!in_array($path, $publicPages)) {
-    if ($method === 'POST') {
-        http_response_code(401);
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => false,
-            'error' => 'unauthorized',
-            'message' => 'Требуется авторизация'
-        ]);
-        exit;
-    }
     if (empty($_SESSION['is_logged']) || $_SESSION['is_logged'] !== true) {
+        if ($method === 'POST') {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'error' => 'unauthorized',
+                'message' => 'Требуется авторизация'
+            ]);
+            exit;
+        }
         header('Location: /login');
         exit; 
     }

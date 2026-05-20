@@ -242,7 +242,7 @@ body {
     color: #FFFFFF;
 }
 
-@media (min-width: 769px) {
+@media screen and (min-width: 769px) {
     .top-title {
         height: 50px;
         font-size: 20px;
@@ -256,7 +256,7 @@ body {
     }
 
     .post {
-        width: 393px;
+        width: 474px;
     }
 
     .header {
@@ -287,7 +287,7 @@ body {
     }
 }
 
-@media (min-width: 1025px) {
+@media screen and (min-width: 1025px) {
     .top-title {
         height: 73px;
         border-bottom: none;
