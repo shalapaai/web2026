@@ -105,26 +105,44 @@ export class PostRenderer {
 
         if (post.images?.length > 1) {
             const sliderContainer = postDiv.querySelector('.post__slider-container');
-            if (sliderContainer) {
-                new Slider(sliderContainer, {
-                    images: post.images.map(img => `/uploads/posts${img}`),
-                    loop: true,
-                });
-            }
+            const slider = new Slider({
+                images: post.images.map(img => `/uploads/posts${img}`)
+            });
+            slider.attachElements({
+                img: sliderContainer.querySelector('.post-content__image'),
+                counter: sliderContainer.querySelector('.post-content__counter'),
+                leftArrow: sliderContainer.querySelector('.arrow_left'),
+                rightArrow: sliderContainer.querySelector('.arrow_right')
+            });
         }
     }
 
     _renderMedia(images) {
-        if (!images || images.length === 0) {
-            return '';
-        }
+        if (!images?.length) return '';
 
         if (images.length === 1) {
             return `
-                <img class="post-content__image" src="/uploads/posts${images[0]}" alt="Картинка поста ${this.currentIndex}">
+                <img
+                    class="post-content__image"
+                    src="/uploads/posts${images[0]}"
+                >
             `;
-        } 
-        return `<div class="post__slider-container"></div>`;
+        }
+
+        return `
+            <div class="post__slider-container">
+                <img class="post-content__image">
+
+                <span class="post-content__counter"></span>
+
+                <button class="post-content__arrow arrow_left" type="button">
+                    <img src="/assets/icons/arrow-left.svg" alt="<-" width="10" height="10">
+                </button>
+                <button class="post-content__arrow arrow_right" type="button">
+                    <img src="/assets/icons/arrow-right.svg" alt="->" width="10" height="10">
+                </button>
+            </div>
+        `;
     }
 
     async _toggleLike(postDiv, postId) {

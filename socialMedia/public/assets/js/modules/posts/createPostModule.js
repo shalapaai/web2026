@@ -168,11 +168,28 @@ export class CreatePostModule {
         } else {
             const sliderContainer = document.createElement('div');
             sliderContainer.className = 'post-content';
+            sliderContainer.innerHTML = `
+                <img class="post-content__image">
+
+                <span class="post-content__counter"></span>
+
+                <button class="post-content__arrow arrow_left" type="button">
+                    <img src="/assets/icons/arrow-left.svg" alt="<-" width="10" height="10">
+                </button>
+
+                <button class="post-content__arrow arrow_right" type="button">
+                    <img src="/assets/icons/arrow-right.svg" alt="->" width="10" height="10">
+                </button>
+            `;
             wrapper.appendChild(sliderContainer);
-            
-            this.sliderInstance = new Slider(sliderContainer, {
-                images: this.images.map(i => i.dataUrl),
-                loop: true
+            this.sliderInstance = new Slider({
+                images: this.images.map(i => i.dataUrl)
+            });
+            this.sliderInstance.attachElements({
+                img: sliderContainer.querySelector('.post-content__image'),
+                counter: sliderContainer.querySelector('.post-content__counter'),
+                leftArrow: sliderContainer.querySelector('.arrow_left'),
+                rightArrow: sliderContainer.querySelector('.arrow_right')
             });
         }
         this.imageArea.appendChild(wrapper);

@@ -74,13 +74,10 @@ export class ModalWindow {
             }
             return;
         }
-        
-        this._slider = new Slider(null, {
+        this._slider = new Slider({
             images: this.images,
-            startIndex: this.currentIndex,
-            isModal: true
+            startIndex: this.currentIndex
         });
-        
         this._slider.attachElements({
             img: this._modal.querySelector('.modal-window-content__image'),
             counter: this._modal.querySelector('.modal-window-content__counter'),
