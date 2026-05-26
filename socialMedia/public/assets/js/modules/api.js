@@ -5,7 +5,6 @@ export class Api {
 
     async request(endpoint, options = {}) {
         const fullUrl = `${this.baseURL}${endpoint}`;
-        console.log(fullUrl);
         const headers = {
             'Accept': 'application/json',
             ...options.headers  
@@ -136,17 +135,12 @@ export class Api {
 
     editProfile(userId, data) {
         const formData = new FormData();
-        
-        // Текстовые поля
         formData.append('name', data.name || '');
         formData.append('profileStatus', data.profileStatus || '');
         console.log(data.profileStatus);
-        
-        // 👇 Аватарка: если есть новый файл — отправляем его
         if (data.avatar instanceof Blob) {
             formData.append('avatar', data.avatar, 'avatar.jpg');
         }
-        // Если аватарка не менялась — можно отправить путь к существующей
         if (data.existingAvatarPath) {
             formData.append('existingAvatarPath', data.existingAvatarPath);
         }
