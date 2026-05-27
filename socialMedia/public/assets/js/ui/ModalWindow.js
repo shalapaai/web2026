@@ -1,4 +1,3 @@
-// ui/ModalWindow.js
 import { Slider } from './Slider.js';
 
 export class ModalWindow {

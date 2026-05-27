@@ -1,4 +1,3 @@
-// ui/Slider.js
 export class Slider {
     constructor(options = {}) {
         this.images = options.images || [];
@@ -10,12 +9,10 @@ export class Slider {
         this._rightArrow = null;
 
         this._onLeftClick = (e) => {
-            e.stopPropagation();
             this.prev();
         };
 
         this._onRightClick = (e) => {
-            e.stopPropagation();
             this.next();
         };
     }
@@ -38,28 +35,19 @@ export class Slider {
     }
 
     prev() {
-        this.currentIndex =
-            (this.currentIndex - 1 + this.images.length) % this.images.length;
-
+        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
         this.update();
     }
 
     next() {
-        this.currentIndex =
-            (this.currentIndex + 1) % this.images.length;
-
+        this.currentIndex = (this.currentIndex + 1) % this.images.length;
         this.update();
     }
 
     update() {
         if (!this._img) return;
-
         this._img.src = this.images[this.currentIndex];
-
-        if (this._counter) {
-            this._counter.textContent =
-                `${this.currentIndex + 1}/${this.images.length}`;
-        }
+        if (this._counter) this._counter.textContent = `${this.currentIndex + 1}/${this.images.length}`;
     }
 
     destroy() {
